@@ -16,11 +16,11 @@ Below is the progress tracking of my game, and the steps listed in order.
 - [ ] Implementing Gravity
 - [ ] Game States
 
-- _**Creating an in-game Menu**_
+**Creating an in-game Menu**
 - [ ] Pause Screen
 - [ ] Pause Screen 2.0
 
-- _**CODING NPCS / ENEMIES:**_
+**CODING NPCS / ENEMIES:**
 - [ ] Adding NPCs / Enemies
 - [ ] Adding NPCs / Enemies 2.0
 - [ ] Adding NPCs / Enemies 3.0
@@ -28,7 +28,7 @@ Below is the progress tracking of my game, and the steps listed in order.
 - [ ] Adding NPCs / Enemies BOSS
 - [ ] Adding Enemy Ai brain
 
-- _**IMPLEMENTING HUD:**_
+**IMPLEMENTING HUD:**
 - [ ] Implementing Health Bar
 - [ ] Implementing Stamina
 - [ ] Implementing Guard Break
@@ -39,7 +39,7 @@ Below is the progress tracking of my game, and the steps listed in order.
 - [ ] Character Selection
 - [ ] Enemy Selection
 
-- **ADDITIONAL SHIT**
+**ADDITIONAL SHIT**
 - [ ] Cleaning up the code
 - [ ] Options menu
 - [ ] Sounds
