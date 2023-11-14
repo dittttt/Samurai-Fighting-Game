@@ -1,6 +1,6 @@
 # PERSONAL-PROJECTS
 
-#**Project Misty -**
+#Project Misty -
 This is a fighting game concept/idea, similar to "Pixel Samurai", which is based on Sekiro and other games as such.
 Below is the progress tracking of my game, and the steps listed in order. 
 
