@@ -2,7 +2,7 @@
 This is a fighting game concept/idea, similar to "Pixel Samurai", which is based on Sekiro and other games as such.
 Below is the progress tracking of my game, and the steps listed in order. 
 
-### **Current Game Progress:**
+### **CURRENT GAME PROGRESS:**
 ________________________________________________________________
 - [X] Game Window
 - [X] Inputs (mouse and keyboard)
@@ -17,11 +17,11 @@ ________________________________________________________________
 - [ ] Implementing Gravity
 - [ ] Game States
 
-**CREATING AN IN-GAME MENU:**
+**Creating an In-game Menu:**
 - [ ] Pause Screen
 - [ ] Pause Screen 2.0
 
-**CODING NPCS / ENEMIES:**
+**Coding NPCs / Enemies:**
 - [ ] Adding NPCs / Enemies
 - [ ] Adding NPCs / Enemies 2.0
 - [ ] Adding NPCs / Enemies 3.0
@@ -29,7 +29,7 @@ ________________________________________________________________
 - [ ] Adding NPCs / Enemies BOSS
 - [ ] Adding Enemy Ai brain
 
-**IMPLEMENTING HUD:**
+**Implementing a HUD:**
 - [ ] Implementing Health Bar
 - [ ] Implementing Stamina
 - [ ] Implementing Guard Break
