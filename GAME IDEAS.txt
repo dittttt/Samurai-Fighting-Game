@@ -1,0 +1,44 @@
+MISTY
+---------------
+A sidescrolling samurai ninja fighting game where you can fight bosses and shit
+INSPIRATION - https://www.youtube.com/watch?v=OfgGQPRHoEI
+
+Late-Edo period, view in between two mountains, at a high point of the mountain, sekiro style
+
+Graphics Design idea:
+- Simple Pixel art style
+- Nice looking backgrounds
+- Dashing turns you to a misty shadow thing, dashing forward to the direction you chose
+- Dodge like brawlhalla
+
+Map - Village
+Description:
+sidescrolling Japanese village, late-Edo era, styled like the anime "gintama", 
+Seed = 594386040
+
+
+Character idea:
+- Jingasa
+- Red or Blue Cloak
+- Katana
+- Shadowy Figure
+
+Main Movement Mechanics:
+- Left / Right Movement (A or D)
+- Walk (default)
+- Run (Shift)
+- Jump (Space or W) [IDK ABT THIS]
+- Dash (Double tap Shift)
+
+Main Combat Mechanics:
+- Lock Opponent (L)
+- Back Dash (S or back direction + Shift)
+- Block (Hold Rmb or K)
+- Parry (Tap Rmb or K)
+- Dash Attack (Double tap Shift + Light or Heavy)
+- Light Attack (Lmb or J)
+- Heavy Attack (Hold Lmb or J)
+
+BOSSES:
+- Chain guy shit ghost rider looking bitch
+- WORK IN PROGRESS

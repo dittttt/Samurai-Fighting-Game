@@ -1,0 +1,56 @@
+I need to make a game through java. 
+The game will be called "Misty"
+
+
+The game will be like sekiro, except it's a pixel art sidescrolling game with twists.
+
+
+Graphics Design idea:
+- Simple Pixel art style
+- Nice looking backgrounds
+- Dashing turns you to a misty shadow thing, dashing forward to the direction you chose
+- Dodge like brawlhalla
+
+
+Character idea:
+- Jingasa
+- Red or Blue Cloak
+- Katana
+- Shadowy Figure
+
+
+Main Movement Mechanics:
+- Left / Right Movement (A or D)
+- Walk (default)
+- Run (Shift)
+- Jump (Space or W)
+- Dash (Double tap Shift)
+
+
+Main Combat Mechanics:
+- Lock Opponent (L)
+- Back Dash (S or back direction + Shift)
+- Block (Hold Rmb or K)
+- Parry (Tap Rmb or K)
+- Dash Attack (Double tap Shift + Light or Heavy)
+- Light Attack (Lmb or J)
+- Heavy Attack (Hold Lmb or J)
+
+
+How do I make this in java?
+
+
+First I need the actual screen to be there. Here are the specifications:
+- 1920 x 1080
+- 60fps
+- 16x16 tiles. This needs to be scaled up so that this could also match with other resolutions.
+
+
+Next I need to make the movements and the sprite to appear.
+I only want the directions to be this:
+- Left
+- Right
+- Jump
+
+
+Make me the base for the game in java.
