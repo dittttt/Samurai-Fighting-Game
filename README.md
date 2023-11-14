@@ -16,7 +16,7 @@ Below is the progress tracking of my game, and the steps listed in order.
 - [ ] Implementing Gravity
 - [ ] Game States
 
-**CREATING AN IN-GAME MENU**
+**CREATING AN IN-GAME MENU:**
 - [ ] Pause Screen
 - [ ] Pause Screen 2.0
 
@@ -39,7 +39,7 @@ Below is the progress tracking of my game, and the steps listed in order.
 - [ ] Character Selection
 - [ ] Enemy Selection
 
-**ADDITIONAL SHIT**
+**ADDITIONAL SHIT:**
 - [ ] Cleaning up the code
 - [ ] Options menu
 - [ ] Sounds
