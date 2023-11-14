@@ -16,7 +16,7 @@ Below is the progress tracking of my game, and the steps listed in order.
 - [ ] Implementing Gravity
 - [ ] Game States
 
-**Creating an in-game Menu**
+**CREATING AN IN-GAME MENU**
 - [ ] Pause Screen
 - [ ] Pause Screen 2.0
 
