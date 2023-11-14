@@ -3,6 +3,7 @@ This is a fighting game concept/idea, similar to "Pixel Samurai", which is based
 Below is the progress tracking of my game, and the steps listed in order. 
 
 ### **Current Game Progress:**
+________________________________________________________________
 - [X] Game Window
 - [X] Inputs (mouse and keyboard)
 - [X] Game Loop (Implementing FPS)
@@ -49,6 +50,7 @@ Below is the progress tracking of my game, and the steps listed in order.
 
 
 ### **Possible Additions:**
+________________________________________________________________
 - [ ] Bigger Levels
 - [ ] Dynamic Maps / Moving background (parallax or smth)
 - [ ] Objects
