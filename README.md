@@ -1,10 +1,10 @@
 # PERSONAL-PROJECTS
 
-**Project Misty -**
+#**Project Misty -**
 This is a fighting game concept/idea, similar to "Pixel Samurai", which is based on Sekiro and other games as such.
 Below is the progress tracking of my game, and the steps listed in order. 
 
-**Current Game Progress:**
+##**Current Game Progress:**
 - [X] Game Window
 - [X] Inputs (mouse and keyboard)
 - [X] Game Loop (Implementing FPS)
@@ -50,7 +50,7 @@ Below is the progress tracking of my game, and the steps listed in order.
 - [ ] Multiple Levels / Maps
 
 
-**Possible Additions:**
+##**Possible Additions:**
 - [ ] Bigger Levels
 - [ ] Dynamic Maps / Moving background (parallax or smth)
 - [ ] Objects
