@@ -16,7 +16,7 @@ ________________________________________________________________
 - [X] Creating static Level/Map
 - [X] Proper Tile Mapping and Resolution
 - [X] Displaying static Level/Map
-- [ ] Collision Detection
+- [X] Collision Detection
 - [ ] Implementing Gravity
 - [ ] Game States
 
