@@ -14,7 +14,8 @@ ________________________________________________________________
 - [X] Bug fix; when window is out of focus, movement bugs occur
 - [X] Player animation fixed; there was no implementation for movement when more than one input is pressed
 - [X] Creating static Level/Map
-- [ ] Displaying static Level/Map
+- [X] Proper Tile Mapping and Resolution
+- [X] Displaying static Level/Map
 - [ ] Collision Detection
 - [ ] Implementing Gravity
 - [ ] Game States
