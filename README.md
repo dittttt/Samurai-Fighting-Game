@@ -10,7 +10,9 @@ ________________________________________________________________
 - [X] Displaying Images
 - [X] Animations (with player movement); currently using downloaded sprite
 - [X] Gmae Loop 2.0 (Implementing UPS)
-- [ ] Player Class
+- [X] Player Class
+- [X] Bug fix; when window is out of focus, movement bugs occur
+- [X] Player animation fixed; there was no implementation for movement when more than one input is pressed
 - [X] Creating static Level/Map
 - [ ] Displaying static Level/Map
 - [ ] Collision Detection
