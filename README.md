@@ -9,7 +9,7 @@ ________________________________________________________________
 - [X] Game Loop (Implementing FPS)
 - [X] Displaying Images
 - [X] Animations (with player movement); currently using downloaded sprite
-- [X] Gmae Loop 2.0 (Implementing UPS)
+- [X] Game Loop 2.0 (Implementing UPS)
 - [X] Player Class
 - [X] Bug fix; when window is out of focus, movement bugs occur
 - [X] Player animation fixed; there was no implementation for movement when more than one input is pressed
