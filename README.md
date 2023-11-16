@@ -51,7 +51,6 @@ ________________________________________________________________
 - [ ] Multiple Levels / Maps
 - [ ] Cleaning up the code / Debugging
 - [ ] Options menu
-
 <br></br>
 ### **Possible Additions:**
 ________________________________________________________________
