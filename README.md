@@ -17,7 +17,8 @@ ________________________________________________________________
 - [X] Proper Tile Mapping and Resolution
 - [X] Displaying static Level/Map
 - [X] Collision Detection
-- [ ] Implementing Gravity
+- [X] Implementing Gravity
+- [X] Adding Jump and Falling Animations
 - [ ] Game States
 
 **Creating an In-game Menu:**
