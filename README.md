@@ -43,14 +43,15 @@ ________________________________________________________________
 - [ ] Intro Scenes before battle
 - [ ] Character Selection
 - [ ] Enemy Selection
+- [ ] Map Selection
 
 **ADDITIONAL SHIT:**
-- [ ] Cleaning up the code
-- [ ] Options menu
 - [ ] Sounds
 - [ ] Power Attack
-- [ ] Debugging
 - [ ] Multiple Levels / Maps
+- [ ] Cleaning up the code / Debugging
+- [ ] Options menu
+
 <br></br>
 ### **Possible Additions:**
 ________________________________________________________________
