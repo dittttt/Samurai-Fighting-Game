@@ -22,11 +22,13 @@ ________________________________________________________________
 - [X] Changed map; map dl from internet -> map made by ditto tiu so gwapo and sexy
 - [X] Updated tile mapping to match updated map
 - [ ] Changed character + animations; sprite from internet tutorial -> sprite from internet but suited for game fuck, kapoy make characters
-- [ ] Updated sprite map / sprite atlas implementation to match sprites
+- [ ] Updated sprite map/sprite atlas implementation to match sprites
 - [ ] Game States
+
 **Creating an In-game Menu:**
 - [ ] Pause Screen
 - [ ] Pause Screen 2.0
+
 **Coding NPCs / Enemies:**
 - [ ] Adding NPCs / Enemies
 - [ ] Adding NPCs / Enemies 2.0
@@ -34,6 +36,7 @@ ________________________________________________________________
 - [ ] Adding NPCs / Enemies 4.0 FINALE
 - [ ] Adding NPCs / Enemies BOSS
 - [ ] Adding Enemy Ai brain
+
 **Implementing a HUD:**
 - [ ] Implementing Health Bar
 - [ ] Implementing Stamina
