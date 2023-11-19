@@ -21,8 +21,10 @@ ________________________________________________________________
 - [X] Adding Jump and Falling Animations
 - [X] Changed map; map dl from internet -> map made by ditto tiu so gwapo and sexy
 - [X] Updated tile mapping to match updated map
-- [ ] Changed character + animations; sprite from internet tutorial -> sprite from internet but suited for game fuck, kapoy make characters
-- [ ] Updated sprite map/sprite atlas implementation to match sprites
+- [X] Changed character + animations; sprite from internet tutorial -> sprite from internet but suited for game fuck, kapoy make characters
+- [X] Updated sprite map/sprite atlas implementation to match sprites
+- [ ] Fixed Floating Character bug
+- [ ] Fixed Collisions for Character
 - [ ] Game States
 
 **Creating an In-game Menu:**
