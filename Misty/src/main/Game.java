@@ -7,7 +7,6 @@ import levels.LevelManager;
 
 public class Game implements Runnable{
 	
-	
 	private GameWindow gameWindow;
 	private GamePanel gamePanel;
 	private Thread gameThread;
@@ -36,7 +35,7 @@ public class Game implements Runnable{
 
 	private void initClasses() {
 		levelManager = new LevelManager(this);
-		player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE));
+		player = new Player(200, 200, (int) (112 * SCALE), (int) (72 * SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 	}
 

@@ -7,14 +7,23 @@ import main.Game;
 public class HelpMethods {
 
 	public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
-		if (!IsSolid(x, y, lvlData))
-			if (!IsSolid(x + width, y + height, lvlData))
-				if (!IsSolid(x + width, y, lvlData))
-					if (!IsSolid(x, y + height, lvlData))
-						return true;
-		return false;
+	    int numPointsX = (int) Math.ceil(width / Game.TILES_SIZE);
+	    int numPointsY = (int) Math.ceil(height / Game.TILES_SIZE);
 
+	    for (int i = 0; i < numPointsX; i++) {
+	        for (int j = 0; j < numPointsY; j++) {
+	            float pointX = x + i * Game.TILES_SIZE;
+	            float pointY = y + j * Game.TILES_SIZE;
+
+	            if (IsSolid(pointX, pointY, lvlData)) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    return true;
 	}
+
 
 	private static boolean IsSolid(float x, float y, int[][] lvlData) {
 		if (x < 0 || x >= Game.GAME_WIDTH)

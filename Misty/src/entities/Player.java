@@ -4,7 +4,6 @@ import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
 import main.Game;
 import utilz.LoadSave;
 
@@ -13,12 +12,13 @@ public class Player extends Entity {
 	private BufferedImage[][] animations;
 	private int aniTick, aniIndex, aniSpeed = 25;
 	private int playerAction = IDLE;
-	private boolean moving = false, attacking = false;
+	private boolean moving = false, light_attack = false, heavy_attack = false;
 	private boolean left, up, right, down, jump;
-	private float playerSpeed = 2.0f;
+	private float playerSpeed = 1.0f;
 	private int[][] lvlData;
-	private float xDrawOffset = 21 * Game.SCALE;
-	private float yDrawOffset = 4 * Game.SCALE;
+	// OLD is 21, 4 || NEW is 43, 34
+	private float xDrawOffset = 43 * Game.SCALE;
+	private float yDrawOffset = 34 * Game.SCALE;
 
 //	JUMPING / GRAVITY
 	public float airSpeed = 0f;
@@ -30,7 +30,8 @@ public class Player extends Entity {
 	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
 		loadAnimations();
-		initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
+		// OLD is 24 x 32 || NEW is 24 x 36
+		initHitbox(x, y, 24 * Game.SCALE, 36 * Game.SCALE);
 
 	}
 
@@ -53,7 +54,8 @@ public class Player extends Entity {
 			aniIndex++;
 			if (aniIndex >= GetSpriteAmount(playerAction)) {
 				aniIndex = 0;
-				attacking = false;
+				light_attack = false;
+				heavy_attack = false;
 			}
 		}
 	}
@@ -73,8 +75,11 @@ public class Player extends Entity {
 				playerAction = FALLING;
 		}
 
-		if (attacking)
-			playerAction = ATTACK_1;
+		if (light_attack)
+			playerAction = LIGHT_ATTACK;
+			
+		if (heavy_attack)
+			playerAction = HEAVY_ATTACK;
 
 		if (startAni != playerAction)
 			resetAniTick();
@@ -89,11 +94,19 @@ public class Player extends Entity {
 	private void updatePos() {
 		moving = false;
 
+		if (left || right) {
+			playerSpeed = 3.0f;
+			aniSpeed = 15;
+		} else {
+			playerSpeed = 2.0f;
+			aniSpeed = 25;
+		}
+
 		if (jump)
 			jump();
 		if (!left && !right && !inAir)
 			return;
-
+		
 		float xSpeed = 0;
 
 		if (left)
@@ -152,10 +165,10 @@ public class Player extends Entity {
 
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
-		animations = new BufferedImage[9][6];
+		animations = new BufferedImage[9][12];
 		for (int j = 0; j < animations.length; j++)
 			for (int i = 0; i < animations[j].length; i++)
-				animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
+				animations[j][i] = img.getSubimage(i * 112, j * 72, 112, 72);
 
 	}
 
@@ -172,8 +185,12 @@ public class Player extends Entity {
 		down = false;
 	}
 
-	public void setAttacking(boolean attacking) {
-		this.attacking = attacking;
+	public void setLightAttack(boolean light_attack) {
+		this.light_attack = light_attack;
+	}
+	
+	public void setHeavyAttack(boolean heavy_attack) {
+		this.heavy_attack = heavy_attack;
 	}
 
 	public boolean isLeft() {
