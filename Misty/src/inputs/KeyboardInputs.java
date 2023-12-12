@@ -56,6 +56,16 @@ public class KeyboardInputs implements KeyListener{
 		case KeyEvent.VK_SPACE:
 			gamePanel.getGame().getPlayer().setJump(true);
 			break;
+//IF GANAHAN TA MA CANCEL
+        case KeyEvent.VK_J:
+            gamePanel.getGame().getPlayer().toggleLightAttack();
+            break;
+        case KeyEvent.VK_K:
+            gamePanel.getGame().getPlayer().toggleHeavyAttack();
+            break;
+             
+//IF GANAHAN TA NA TOGGLE
+			
 		}
 		
 	}

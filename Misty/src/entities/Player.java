@@ -31,7 +31,7 @@ public class Player extends Entity {
 		super(x, y, width, height);
 		loadAnimations();
 		// OLD is 24 x 32 || NEW is 24 x 36
-		initHitbox(x, y, 24 * Game.SCALE, 36 * Game.SCALE);
+		initHitbox(x, y, 24 * Game.SCALE, 32 * Game.SCALE);
 
 	}
 
@@ -193,6 +193,14 @@ public class Player extends Entity {
 		this.heavy_attack = heavy_attack;
 	}
 
+	public void toggleLightAttack() {
+	    light_attack = !light_attack;
+	}
+
+	public void toggleHeavyAttack() {
+	    heavy_attack = !heavy_attack;
+	}
+	
 	public boolean isLeft() {
 		return left;
 	}
