@@ -19,23 +19,28 @@ public class Menu extends State implements Statemethods {
 		super(game);
 		loadButtons();
 		loadBackground();
-
 	}
 
 	private void loadBackground() {
-		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BACKGROUND);
-		menuWidth = (int) (backgroundImg.getWidth() * Game.SCALE);
-		menuHeight = (int) (backgroundImg.getHeight() * Game.SCALE);
-		menuX = Game.GAME_WIDTH / 2 - menuWidth / 2;
-		menuY = (int) (45 * Game.SCALE);
+	    backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BACKGROUND);
+	    menuWidth = (int) (backgroundImg.getWidth() * Game.MENU_SCALE);
+	    menuHeight = (int) (backgroundImg.getHeight() * Game.MENU_SCALE);
 
+	    // Calculate the vertical center of the screen
+	    int centerY = (Game.GAME_HEIGHT - menuHeight) / 2;
+
+	    menuX = Game.GAME_WIDTH / 2 - menuWidth / 2;
+	    menuY = centerY;
 	}
+
 
 	private void loadButtons() {
-		buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, Gamestate.PLAYING);
-		buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220 * Game.SCALE), 1, Gamestate.OPTIONS);
-		buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 2, Gamestate.QUIT);
+	    buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (215 * Game.MENU_SCALE), 0, Gamestate.PLAYING);
+	    buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (285 * Game.MENU_SCALE), 1, Gamestate.OPTIONS);
+	    buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (355* Game.MENU_SCALE), 2, Gamestate.QUIT);
 	}
+
+
 
 	@Override
 	public void update() {
@@ -63,6 +68,7 @@ public class Menu extends State implements Statemethods {
 		for (MenuButton mb : buttons) {
 			if (isIn(e, mb)) {
 				mb.setMousePressed(true);
+				break;
 			}
 		}
 
@@ -77,9 +83,7 @@ public class Menu extends State implements Statemethods {
 				break;
 			}
 		}
-
 		resetButtons();
-
 	}
 
 	private void resetButtons() {
@@ -98,7 +102,6 @@ public class Menu extends State implements Statemethods {
 				mb.setMouseOver(true);
 				break;
 			}
-
 	}
 
 	@Override

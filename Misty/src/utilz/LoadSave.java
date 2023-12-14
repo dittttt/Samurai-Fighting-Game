@@ -11,11 +11,11 @@ import main.Game;
 
 public class LoadSave {
 
-	public static final String PLAYER_ATLAS = "player_sprites.png";
-	public static final String LEVEL_ATLAS = "outside_sprites.png";
+	public static final String PLAYER_ATLAS = "samurai_atlas_newrun.png";
+	public static final String LEVEL_ATLAS = "Japanese_Vilage_UPDATED.png";
 	public static final String LEVEL_ONE_DATA = "level_one_data.png";
 	public static final String MENU_BUTTONS = "button_atlas.png";
-	public static final String MENU_BACKGROUND = "menu_background.png";
+	public static final String MENU_BACKGROUND = "menu_background_test.png";
 	public static final String PAUSE_BACKGROUND = "pause_menu.png";
 	public static final String SOUND_BUTTONS = "sound_button.png";
 	public static final String URM_BUTTONS = "urm_buttons.png";
@@ -47,11 +47,10 @@ public class LoadSave {
 			for (int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getRed();
-				if (value >= 48)
+				if (value >= 84)
 					value = 0;
 				lvlData[j][i] = value;
 			}
 		return lvlData;
-
 	}
 }

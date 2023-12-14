@@ -22,17 +22,17 @@ public class Playing extends State implements Statemethods {
 
 	private void initClasses() {
 		levelManager = new LevelManager(game);
-		player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE));
+		player = new Player(200, 200, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 		pauseOverlay = new PauseOverlay(this);
 	}
 
 	@Override
 	public void update() {
-		if (!paused) {
+		if(!paused) {
 			levelManager.update();
 			player.update();
-		} else {
+		}else {
 			pauseOverlay.update();
 		}
 	}
@@ -44,12 +44,16 @@ public class Playing extends State implements Statemethods {
 
 		if (paused)
 			pauseOverlay.draw(g);
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1)
-			player.setAttacking(true);
+			player.setLightAttack(true);
+
+		else if (e.getButton() == MouseEvent.BUTTON3)
+			player.setHeavyAttack(true);
 	}
 
 	@Override
@@ -63,6 +67,20 @@ public class Playing extends State implements Statemethods {
 			break;
 		case KeyEvent.VK_SPACE:
 			player.setJump(true);
+			break;
+//IF GANAHAN TA MA CANCEL
+		case KeyEvent.VK_J:
+			player.toggleLightAttack(true);
+			break;
+		case KeyEvent.VK_K:
+			player.toggleHeavyAttack(true);
+			break;
+		case KeyEvent.VK_SHIFT:
+			player.setRun(true);
+			break;
+		case KeyEvent.VK_CONTROL:
+		case KeyEvent.VK_C:
+			player.toggleRoll(true);
 			break;
 		case KeyEvent.VK_ESCAPE:
 			paused = !paused;
@@ -82,15 +100,18 @@ public class Playing extends State implements Statemethods {
 		case KeyEvent.VK_SPACE:
 			player.setJump(false);
 			break;
+		case KeyEvent.VK_SHIFT:
+			player.setRun(false);
+			break;
 		}
 
 	}
-
+	
 	public void mouseDragged(MouseEvent e) {
-		if (paused)
+		if(paused)
 			pauseOverlay.mouseDragged(e);
 	}
-
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (paused)
