@@ -24,23 +24,24 @@ public class Playing extends State implements Statemethods {
 
 	private void initClasses() {
 		levelManager = new LevelManager(game);
-		player = new Player(100, 700, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
+		player = new Player(100, 200, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-		enemy = new Enemy(1719, 700, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
+		enemy = new Enemy(1719, 200, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
 		enemy.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 		pauseOverlay = new PauseOverlay(this);
 	}
 
 	@Override
 	public void update() {
-		if(!paused) {
-			levelManager.update();
-			player.update();
-			enemy.update();
-			
-		}else {
-			pauseOverlay.update();
-		}
+	    if (!paused) {
+	        levelManager.update();
+	        player.update();
+	        float playerX = player.getPlayerX();  // Obtain player's X coordinate
+	        float playerY = player.getPlayerY();  // Obtain player's Y coordinate
+	        enemy.update(playerX, playerY);
+	    } else {
+	        pauseOverlay.update();
+	    }
 	}
 
 	@Override
