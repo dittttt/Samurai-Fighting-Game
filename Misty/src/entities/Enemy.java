@@ -156,7 +156,7 @@ public class Enemy extends Entity {
 
 		if (!inAir) {
 			if (roll) {
-				playerSpeed = 0.6f * Game.SCALE;
+				playerSpeed = 0.75f * Game.SCALE;
 				canMove = false;
 				aniSpeed = 20;
 				continueMovingAfterRoll = left || right; // Set the flag
