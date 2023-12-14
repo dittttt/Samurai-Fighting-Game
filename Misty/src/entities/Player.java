@@ -342,4 +342,11 @@ public class Player extends Entity {
 		this.death = true;
 	}
 
+	public float getPlayerX() {
+	    return hitbox.x; // Assuming hitbox.x represents the X coordinate of the player
+	}
+
+	public float getPlayerY() {
+	    return hitbox.y; // Assuming hitbox.y represents the Y coordinate of the player
+	}
 }
