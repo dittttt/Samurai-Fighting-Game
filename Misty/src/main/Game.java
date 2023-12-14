@@ -1,6 +1,11 @@
 package main;
 
 import java.awt.Graphics;
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import gamestates.Gamestate;
 import gamestates.Menu;
@@ -25,12 +30,18 @@ public class Game implements Runnable {
 	public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
 	public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 	
+	private Clip menuMusicClip;
+	private Clip inGameMusicClip;
+	
 	public Game() {
 		initClasses();
 		
 		gamePanel = new GamePanel(this);
 		new GameWindow(gamePanel);
 		gamePanel.requestFocus();
+
+		playMusic("audio/menu.wav");
+		playInGameMusic("audio/ingame.wav");
 
 		startGameLoop();
 	}
@@ -49,9 +60,13 @@ public class Game implements Runnable {
 		switch (Gamestate.state) {
 		case MENU:
 			menu.update();
+			startMenuMusic();
+			stopInGameMusic();
 			break;
 		case PLAYING:
 			playing.update();
+			stopMenuMusic();
+			startInGameMusic();
 			break;
 		case OPTIONS:
 		case QUIT:
@@ -130,5 +145,65 @@ public class Game implements Runnable {
 
 	public Playing getPlaying() {
 		return playing;
+	}
+	
+	private void playMusic(String filepath) {
+	    try {
+	        File musicFile = new File(System.getProperty("user.dir") + File.separator + filepath);
+	        if (musicFile.exists()) {
+	            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
+	            menuMusicClip = AudioSystem.getClip();
+	            menuMusicClip.open(audioInput);
+	            menuMusicClip.start();
+	            menuMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+	        } else {
+	            System.out.println("Can't find file!");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	private void stopMenuMusic() {
+	    if (menuMusicClip != null && menuMusicClip.isRunning()) {
+	        menuMusicClip.stop();
+	    }
+	}
+	
+	private void startMenuMusic() {
+	    if (menuMusicClip != null && !menuMusicClip.isRunning()) {
+	        menuMusicClip.start();
+	        menuMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+	    }
+	}
+
+	private void playInGameMusic(String filepath) {
+	    try {
+	        File musicFile = new File(System.getProperty("user.dir") + File.separator + filepath);
+	        if (musicFile.exists()) {
+	            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
+	            inGameMusicClip = AudioSystem.getClip();
+	            inGameMusicClip.open(audioInput);
+	            inGameMusicClip.start();
+	            inGameMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+	        } else {
+	            System.out.println("Can't find file!");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	private void startInGameMusic() {
+		if (inGameMusicClip != null && !inGameMusicClip.isRunning()) {
+			inGameMusicClip.start();
+			inGameMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+	    }
+	}
+	
+	private void stopInGameMusic() {
+	    if (inGameMusicClip != null && inGameMusicClip.isRunning()) {
+	    	inGameMusicClip.stop();
+	    }
 	}
 }
