@@ -15,7 +15,7 @@ public class Game implements Runnable {
 
 	private Playing playing;
 	private Menu menu;
-
+	
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static float SCALE = 5.0f;
 	public final static float MENU_SCALE = 2f;

@@ -7,13 +7,13 @@ import java.awt.image.BufferedImage;
 import main.Game;
 import utilz.LoadSave;
 
-public class Player extends Entity {
+public class Enemy extends Entity {
 
 	private BufferedImage[][] animations;
 	private int aniTick, aniIndex, aniSpeed = 25;
 	private int playerAction = IDLE;
 	private boolean moving = false, light_attack = false, heavy_attack = false;
-	private boolean roll = false, rollingForward = false, canMove = true, normalMirrorState = true;
+	private boolean roll = false, rollingForward = false, canMove = true, normalMirrorState = false;
 	private int rollDuration = 1, rollCounter = 0;
 	private boolean continueMovingAfterRoll = false;
 	private boolean left, right, jump, run, death;
@@ -31,13 +31,13 @@ public class Player extends Entity {
 	private float fallSpeedAfterCollision = 1.0f * Game.SCALE;
 	private boolean inAir = false;
 
-	public Player(float x, float y, int width, int height) {
+	public Enemy(float x, float y, int width, int height) {
 		super(x, y, width, height);
 		loadAnimations();
 		// OLD is 24 x 32 || NEW is 24 x 36
 		initHitbox(x, y, (int) (20 * Game.SCALE), (int) (30 * Game.SCALE));
 	}
-
+	
 	public void update() {
 		updatePos();
 		updateAnimationTick();
@@ -98,12 +98,12 @@ public class Player extends Entity {
 			if (moving) {
 				if (run && (left || right)) {
 					playerAction = RUNNING;
-					normalMirrorState = right; // Mirror state based on the direction of movement
+					normalMirrorState = left; // Mirror state based on the direction of movement
 				} else if (run && (!left || !right)) {
 					playerAction = IDLE;
 				} else if (left || right) {
 					playerAction = WALKING;
-					normalMirrorState = right; // Mirror state based on the direction of movement
+					normalMirrorState = left; // Mirror state based on the direction of movement
 				}
 			} else {
 				playerAction = IDLE;
@@ -166,7 +166,7 @@ public class Player extends Entity {
 		}
 
 		if (canMove) {
-			if (!run) {
+			if (!run) {	
 				aniSpeed = 30;
 				if (left || right) {
 					playerSpeed = 0.6f * Game.SCALE;
@@ -269,7 +269,7 @@ public class Player extends Entity {
 
 	private void loadAnimations() {
 
-		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.ENEMY_ATLAS);
 
 		animations = new BufferedImage[9][12];
 		for (int j = 0; j < animations.length; j++)

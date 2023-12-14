@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import entities.Enemy;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
@@ -11,6 +12,7 @@ import ui.PauseOverlay;
 
 public class Playing extends State implements Statemethods {
 	private Player player;
+	private Enemy enemy;
 	private LevelManager levelManager;
 	private PauseOverlay pauseOverlay;
 	private boolean paused = false;
@@ -22,8 +24,10 @@ public class Playing extends State implements Statemethods {
 
 	private void initClasses() {
 		levelManager = new LevelManager(game);
-		player = new Player(200, 200, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
+		player = new Player(100, 700, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+		enemy = new Enemy(1719, 700, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
+		enemy.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 		pauseOverlay = new PauseOverlay(this);
 	}
 
@@ -32,6 +36,8 @@ public class Playing extends State implements Statemethods {
 		if(!paused) {
 			levelManager.update();
 			player.update();
+			enemy.update();
+			
 		}else {
 			pauseOverlay.update();
 		}
@@ -41,6 +47,7 @@ public class Playing extends State implements Statemethods {
 	public void draw(Graphics g) {
 		levelManager.draw(g);
 		player.render(g);
+		enemy.render(g);
 
 		if (paused)
 			pauseOverlay.draw(g);
@@ -81,6 +88,9 @@ public class Playing extends State implements Statemethods {
 		case KeyEvent.VK_CONTROL:
 		case KeyEvent.VK_C:
 			player.toggleRoll(true);
+			break;
+		case KeyEvent.VK_H:
+			player.toggleDeath(true);
 			break;
 		case KeyEvent.VK_ESCAPE:
 			paused = !paused;
@@ -143,6 +153,10 @@ public class Playing extends State implements Statemethods {
 
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public Enemy getEnemy() {
+		return enemy;
 	}
 
 }

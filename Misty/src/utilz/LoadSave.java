@@ -11,11 +11,12 @@ import main.Game;
 
 public class LoadSave {
 
-	public static final String PLAYER_ATLAS = "samurai_atlas_newrun.png";
+	public static final String PLAYER_ATLAS = "samurai_atlas.png";
+	public static final String ENEMY_ATLAS = "ronin_atlas.png";
 	public static final String LEVEL_ATLAS = "Japanese_Vilage_UPDATED.png";
 	public static final String LEVEL_ONE_DATA = "level_one_data.png";
 	public static final String MENU_BUTTONS = "button_atlas.png";
-	public static final String MENU_BACKGROUND = "menu_background_test.png";
+	public static final String MENU_BACKGROUND = "menu_background_red.png";
 	public static final String PAUSE_BACKGROUND = "pause_menu.png";
 	public static final String SOUND_BUTTONS = "sound_button.png";
 	public static final String URM_BUTTONS = "urm_buttons.png";
