@@ -38,17 +38,10 @@ This is a fighting game concept/idea based on classic 2D samurai games, with ele
 - [X] Movement & Jump logic  
 - [X] Character combat system: Light + Heavy Attacks, Run, Roll  
 - [X] Rolling / Dodging with i-frames  
+- [ ] Create global character class for both Player and Enemy classes
 - [ ] Stuns  
 - [ ] Blocking / Parrying  
 - [ ] Guard Break  
-
-### 🔊 AUDIO SYSTEM
-- [X] Music (Main Menu + In-Game Loop)  
-- [X] Pause Menu Volume Slider logic  
-- [X] Mute Buttons logic  
-- [X] Scroll Wheel support for sliders  
-- [ ] SFX Implementation (attacks, UI, footsteps, etc.)  
-- [ ] Volume system hookup (currently logic only) 🟡 Not fully implemented yet
 
 ### 📋 MENUS / UI
 - [X] Main Menu Navigation (Play, Options (logic), Quit)  
@@ -58,6 +51,14 @@ This is a fighting game concept/idea based on classic 2D samurai games, with ele
 - [ ] Character Selection  
 - [ ] Map Selection  
 - [ ] Enemy Selection  
+
+### 🔊 AUDIO SYSTEM
+- [X] Music (Main Menu + In-Game Loop)  
+- [X] Pause Menu Volume Slider logic  
+- [X] Mute Buttons logic  
+- [X] Scroll Wheel support for sliders  
+- [ ] SFX Implementation (attacks, UI, footsteps, etc.)  
+- [ ] Volume system hookup (currently logic only) 🟡 Not fully implemented yet
 
 ### 🧠 ENEMIES & AI
 - [X] Basic Enemy/NPC Setup  
