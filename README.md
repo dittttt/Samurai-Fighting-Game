@@ -128,5 +128,5 @@ Sprites from external sources (to be replaced/customized later)
 
 ---
 
-> Project Misty is a passion project — gritty, responsive, and sword-slashy. Progress is logged below and updated regularly.
+> Project Misty: Initially a college project, now a passion project — rewarding, responsive, and sword-slashy. Progress is logged above and updated regularly.
 ```
