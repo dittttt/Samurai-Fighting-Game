@@ -23,21 +23,26 @@ ________________________________________________________________
 - [X] Updated tile mapping to match updated map
 - [X] Changed character + animations; sprite from internet tutorial -> sprite from internet but suited for game fuck, kapoy make characters
 - [X] Updated sprite map/sprite atlas implementation to match sprites
-- [ ] Fixed Floating Character bug
-- [ ] Fixed Collisions for Character
-- [ ] Game States
+- [X] Fixed Floating Character bug
+- [X] Fixed Collisions for Character
+- [X] Game States
+- [X] Changed default window state to Windowed (1920 x 1080 default)
+- [X] Added dynamic res fullscreen option (F11)
+- [X] Added Main Menu background gif support
 
 **Creating an In-game Menu:**
-- [ ] Pause Screen
-- [ ] Pause Screen 2.0
+- [X] Pause Screen
+- [X] Pause Screen 2.0
+- [X] Music / SFX mute toggle logic
+- [X] Volume Slider logic
+- [X] Added scroll wheel support for Volume slider
 
 **Coding NPCs / Enemies:**
-- [ ] Adding NPCs / Enemies
-- [ ] Adding NPCs / Enemies 2.0
-- [ ] Adding NPCs / Enemies 3.0
-- [ ] Adding NPCs / Enemies 4.0 FINALE
-- [ ] Adding NPCs / Enemies BOSS
+- [X] Adding NPCs / Enemies 1.0
 - [ ] Adding Enemy Ai brain
+- [ ] Adding NPCs / Enemies 2.0
+- [ ] Adding NPCs / Enemies 3.0 FINALE
+- [ ] Adding NPCs / Enemies BOSS
 
 **Implementing a HUD:**
 - [ ] Implementing Health Bar
@@ -53,7 +58,7 @@ ________________________________________________________________
 
 **ADDITIONAL SHIT:**
 - [ ] Sounds
-- [ ] Power Attack
+- [X] Main Menu / In-game music
 - [ ] Multiple Levels / Maps
 - [ ] Cleaning up the code / Debugging
 - [ ] Options menu
