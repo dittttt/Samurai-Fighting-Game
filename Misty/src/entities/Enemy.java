@@ -45,7 +45,7 @@ public class Enemy extends Character {
 		healthBarBgColor = new Color(80, 0, 0); // Dark Red
 
 		loadAnimations();
-		initHitbox(x, y, HITBOX_WIDTH, HITBOX_HEIGHT);
+		initHitbox(x, y, HITBOX_WIDTH, HITBOX_HEIGHT);	
 		xDrawOffset = X_DRAW_OFFSET * Game.SCALE;
 		yDrawOffset = Y_DRAW_OFFSET * Game.SCALE;
 

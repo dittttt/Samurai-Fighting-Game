@@ -18,6 +18,7 @@ import static utilz.HelpMethods.IsEntityOnFloor;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import main.Game;
@@ -51,6 +52,10 @@ public abstract class Character extends Entity {
     protected int health = 100;
     protected Color healthBarFillColor;
     protected Color healthBarBgColor;
+    protected Rectangle2D.Float attackHitbox;
+    protected int attackDamage;
+    protected boolean attackConnected = false;
+    
     
     public Character(float x, float y, int width, int height) {
         super(x, y, width, height);
