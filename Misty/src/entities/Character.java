@@ -1,20 +1,7 @@
 package entities;
 
-import static utilz.Constants.PlayerConstants.DEATH;
-import static utilz.Constants.PlayerConstants.FALLING;
-import static utilz.Constants.PlayerConstants.GetSpriteAmount;
-import static utilz.Constants.PlayerConstants.HEAVY_ATTACK;
-import static utilz.Constants.PlayerConstants.HIT;
-import static utilz.Constants.PlayerConstants.IDLE;
-import static utilz.Constants.PlayerConstants.JUMP;
-import static utilz.Constants.PlayerConstants.LIGHT_ATTACK;
-import static utilz.Constants.PlayerConstants.ROLL;
-import static utilz.Constants.PlayerConstants.RUNNING;
-import static utilz.Constants.PlayerConstants.WALKING;
-import static utilz.HelpMethods.CanMoveHere;
-import static utilz.HelpMethods.GetEntityXPosNextToWall;
-import static utilz.HelpMethods.GetEntityYPosUnderRoofOrAboveFloor;
-import static utilz.HelpMethods.IsEntityOnFloor;
+import static utilz.Constants.PlayerConstants.*;
+import static utilz.HelpMethods.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -24,7 +11,6 @@ import java.awt.image.BufferedImage;
 import main.Game;
 
 public abstract class Character extends Entity {
-    // Common fields
     protected BufferedImage[][] animations;
     protected int aniTick, aniIndex, aniSpeed = 25;
     protected int characterAction = IDLE;
@@ -53,21 +39,31 @@ public abstract class Character extends Entity {
     protected Color healthBarFillColor;
     protected Color healthBarBgColor;
     protected Rectangle2D.Float attackHitbox;
-    protected int attackDamage;
     protected boolean attackConnected = false;
-    
-    
+    protected boolean invulnerable = false;
+    protected long lastHitTime;
+    protected long invulnerabilityDuration = 500; // 0.5 seconds
+
     public Character(float x, float y, int width, int height) {
         super(x, y, width, height);
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (30 * Game.SCALE));
+        attackHitbox = new Rectangle2D.Float(x, y, 40 * Game.SCALE, 20 * Game.SCALE);
     }
-    
-    // Common methods
+
     protected void updateCharacter() {
         updatePos();
         updateAnimationTick();
         setAnimation();
         updateXDrawOffset();
+        updateAttackHitbox();
+    }
+
+    protected void updateAttackHitbox() {
+        if (light_attack || heavy_attack) {
+            float xPos = hitbox.x + (normalMirrorState ? hitbox.width : -40 * Game.SCALE);
+            attackHitbox.x = xPos;
+            attackHitbox.y = hitbox.y;
+        }
     }
     
     protected void updateXDrawOffset() {
@@ -129,6 +125,11 @@ public abstract class Character extends Entity {
                 death = false;
                 hit = false;
             }
+        }
+        
+        // Check invulnerability
+        if (invulnerable && System.currentTimeMillis() - lastHitTime >= invulnerabilityDuration) {
+            invulnerable = false;
         }
     }
     
@@ -197,7 +198,7 @@ public abstract class Character extends Entity {
         }
     }
     
-    protected void resetAniTick() {
+    public void resetAniTick() {
         aniTick = 0;
         aniIndex = 0;
     }
@@ -344,6 +345,27 @@ public abstract class Character extends Entity {
         left = false;
         right = false;
         run = false;
+    }
+    
+    public void takeDamage(int damage) {
+        if (!invulnerable && !death) {
+            health = Math.max(0, health - damage);
+            hit = true;
+            invulnerable = true;
+            lastHitTime = System.currentTimeMillis();
+            if (health <= 0) {
+                health = 0;
+                death = true;
+            }
+        }
+    }
+
+    public Rectangle2D.Float getHitbox() {
+        return hitbox;
+    }
+
+    public boolean isAttacking() {
+        return light_attack || heavy_attack;
     }
     
     // Getters and setters

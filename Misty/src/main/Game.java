@@ -71,24 +71,7 @@ public class Game implements Runnable {
 			break;
 		case PLAYING:
 			playing.update();
-			if (playing.getPlayer().getHealth() <= 0) {
-				Gamestate.state = Gamestate.GAME_OVER;
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Gamestate.state = Gamestate.MENU;
-			}
-			if (playing.getEnemy().getHealth() <= 0) {
-				Gamestate.state = Gamestate.VICTORY;
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Gamestate.state = Gamestate.MENU;
-			}
+			// Remove the automatic state change conditions here
 			stopMenuMusic();
 			startInGameMusic();
 			break;
@@ -112,28 +95,8 @@ public class Game implements Runnable {
 			playing.draw(g);
 			break;
 		case GAME_OVER:
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-			g.setColor(Color.WHITE);
-			Font font = new Font("Arial", Font.PLAIN, 30);
-			g.setFont(font);
-			String gameOverText = "GAME OVER";
-			int textWidth = g.getFontMetrics().stringWidth(gameOverText);
-			int x = (GAME_WIDTH - textWidth) / 2;
-			int y = GAME_HEIGHT / 2;
-			g.drawString(gameOverText, x, y);
 			break;
 		case VICTORY:
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-			g.setColor(Color.BLACK);
-			Font fontl = new Font("Arial", Font.PLAIN, 30);
-			g.setFont(fontl);
-			String gameOverTextl = "YOU WIN!!";
-			int textWidthl = g.getFontMetrics().stringWidth(gameOverTextl);
-			int xl = (GAME_WIDTH - textWidthl) / 2;
-			int y1 = GAME_HEIGHT / 2;
-			g.drawString(gameOverTextl, xl, y1);
 			break;
 		default:
 			break;
@@ -279,5 +242,9 @@ public class Game implements Runnable {
 
 	public GameWindow getGameWindow() {
 		return gameWindow;
+	}
+
+	public GamePanel getGamePanel() {
+		return gamePanel;
 	}
 }
