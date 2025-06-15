@@ -74,5 +74,15 @@ public class Constants {
 			}
 			
 		}
+	    public static int GetHitFrame(int player_action) {
+	        switch(player_action) {
+	            case LIGHT_ATTACK:
+	                return 4; // Hits on frame 4 of 7
+	            case HEAVY_ATTACK:
+	                return 5; // Hits on frame 5 of 11
+	            default:
+	                return 0;
+	        }
+	    }
 	}
 }

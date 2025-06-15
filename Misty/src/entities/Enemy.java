@@ -1,13 +1,15 @@
 package entities;
 
+import static utilz.Constants.PlayerConstants.GetSpriteAmount;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import static utilz.Constants.PlayerConstants.*;
 
 import main.Game;
 import utilz.LoadSave;
-import static utilz.Constants.PlayerConstants.*;
 
 public class Enemy extends Character {
 	// Enemy-specific constants
@@ -19,9 +21,8 @@ public class Enemy extends Character {
 	private static final int HEAVY_ATTACK_DAMAGE = 20;
 	private static final int ATTACK_RANGE = 50;
 
-	// AI States
 	private enum State {
-		IDLE, PATROLLING, CHASING, ATTACKING, DEFENSIVE, RECOVERING
+		IDLE, PATROLLING, CHASING, ATTACKING, DEFENSIVE, RECOVERING, HIT
 	}
 
 	// Enemy-specific fields
@@ -78,9 +79,12 @@ public class Enemy extends Character {
 			aniIndex++;
 			if (aniIndex >= GetSpriteAmount(characterAction)) {
 				aniIndex = 0;
-				light_attack = false;
-				heavy_attack = false;
-				roll = false;
+				// Only reset these flags if not in hit state
+				if (characterAction != HIT) {
+					light_attack = false;
+					heavy_attack = false;
+					roll = false;
+				}
 				death = false;
 				hit = false;
 				attackProcessed = false;
@@ -93,45 +97,75 @@ public class Enemy extends Character {
 	}
 
 	private void makeDecision(long currentTime) {
-	    if (hit) {
-	        currentState = State.RECOVERING;
-	        return;
-	    }
+		// Immediate reactions first
+		if (hit) {
+			currentState = State.HIT;
+			return;
+		}
 
-	    // More immediate defensive reactions
-	    if (player.isAttacking() && distanceToPlayer < 150 && currentTime - lastRollTime >= rollCooldown) {
-	        if (random.nextFloat() < 0.8f) { // Increased chance to dodge
-	            currentState = State.DEFENSIVE;
-	            return;
-	        }
-	    }
+		// More dynamic defensive reactions
+		if (player.isAttacking() && distanceToPlayer < 150 && currentTime - lastRollTime >= rollCooldown) {
+			if (random.nextFloat() < 0.8f) { // 80% chance to dodge
+				currentState = State.DEFENSIVE;
+				return;
+			}
+		}
 
-	    // More aggressive when close
-	    if (distanceToPlayer <= ATTACK_RANGE * 1.5f) {
-	        currentState = State.ATTACKING;
-	        return;
-	    }
-
+		// State transitions
 		switch (currentState) {
-		case IDLE:
-			handleIdleState();
-			break;
-		case PATROLLING:
-			handlePatrollingState();
-			break;
-		case CHASING:
-			handleChasingState();
-			break;
-		case ATTACKING:
-			handleAttackingState(currentTime);
-			break;
-		case DEFENSIVE:
-			handleDefensiveState(currentTime);
+		case HIT:
+			if (!hit)
+				currentState = State.RECOVERING;
 			break;
 		case RECOVERING:
-			if (!hit) {
-				currentState = State.IDLE;
+			if (currentTime - lastHitTime > 500) { // 0.5s recovery
+				currentState = distanceToPlayer < 200 ? State.CHASING : State.IDLE;
 			}
+			break;
+		case IDLE:
+			if (distanceToPlayer < 300) {
+				currentState = State.CHASING;
+			} else if (random.nextInt(100) < 3) { // Reduced patrol chance
+				currentState = State.PATROLLING;
+			}
+			break;
+		case PATROLLING:
+			if (distanceToPlayer < 400) { // Increased detection range
+				currentState = State.CHASING;
+			} else {
+				patrol();
+			}
+			break;
+		case CHASING:
+			if (distanceToPlayer > 400) {
+				currentState = State.IDLE;
+			} else if (distanceToPlayer <= ATTACK_RANGE * 1.2f) {
+				currentState = State.ATTACKING;
+			} else {
+				followPlayer();
+
+				// Smarter distance closing
+				if (distanceToPlayer > 120 && random.nextFloat() < 0.15f
+						&& currentTime - lastRollTime >= rollCooldown) {
+					roll = true;
+					lastRollTime = currentTime;
+				}
+			}
+			break;
+		case ATTACKING:
+			if (distanceToPlayer > ATTACK_RANGE * 1.5f) {
+				currentState = State.CHASING;
+			} else if (currentTime - lastAttackTime >= attackCooldown) {
+				attack();
+				lastAttackTime = currentTime;
+				attackCooldown = 800 + random.nextInt(1200); // More varied cooldown
+			}
+			break;
+		case DEFENSIVE:
+			roll = true;
+			normalMirrorState = playerX < hitbox.x;
+			lastRollTime = currentTime;
+			currentState = State.CHASING;
 			break;
 		}
 	}
@@ -153,22 +187,22 @@ public class Enemy extends Character {
 	}
 
 	private void handleChasingState() {
-	    if (distanceToPlayer > 300) {
-	        currentState = State.IDLE;
-	    } else if (distanceToPlayer <= ATTACK_RANGE) {
-	        currentState = State.ATTACKING;
-	    } else {
-	        // More aggressive chasing
-	        run = true;
-	        followPlayer();
-	        
-	        // Occasionally roll forward to close distance
-	        if (distanceToPlayer > 100 && random.nextFloat() < 0.1f && 
-	            System.currentTimeMillis() - lastRollTime >= rollCooldown) {
-	            roll = true;
-	            lastRollTime = System.currentTimeMillis();
-	        }
-	    }
+		if (distanceToPlayer > 300) {
+			currentState = State.IDLE;
+		} else if (distanceToPlayer <= ATTACK_RANGE) {
+			currentState = State.ATTACKING;
+		} else {
+			// More aggressive chasing
+			run = true;
+			followPlayer();
+
+			// Occasionally roll forward to close distance
+			if (distanceToPlayer > 100 && random.nextFloat() < 0.1f
+					&& System.currentTimeMillis() - lastRollTime >= rollCooldown) {
+				roll = true;
+				lastRollTime = System.currentTimeMillis();
+			}
+		}
 	}
 
 	private void handleAttackingState(long currentTime) {
@@ -198,21 +232,21 @@ public class Enemy extends Character {
 	}
 
 	private void attack() {
-	    if (random.nextFloat() < 0.7f) {
-	        light_attack = true;
-	        if (checkPlayerInRange() && aniIndex >= GetSpriteAmount(characterAction) / 2 && !attackProcessed) {
-	            player.takeDamage(LIGHT_ATTACK_DAMAGE);
-	            attackProcessed = true;
-	        }
-	    } else {
-	        heavy_attack = true;
-	        if (checkPlayerInRange() && aniIndex >= GetSpriteAmount(characterAction) / 2 && !attackProcessed) {
-	            player.takeDamage(HEAVY_ATTACK_DAMAGE);
-	            attackProcessed = true;
-	        }
-	    }
+		if (distanceToPlayer < ATTACK_RANGE * 0.7f) {
+			heavy_attack = true;
+			if (checkPlayerInRange() && aniIndex >= GetSpriteAmount(characterAction) / 2 && !attackProcessed) {
+				player.takeDamage(HEAVY_ATTACK_DAMAGE);
+				attackProcessed = true;
+			}
+		} else {
+			light_attack = true;
+			if (checkPlayerInRange() && aniIndex >= GetSpriteAmount(characterAction) / 3 && !attackProcessed) {
+				player.takeDamage(LIGHT_ATTACK_DAMAGE);
+				attackProcessed = true;
+			}
+		}
 	}
-	
+
 	private boolean checkPlayerInRange() {
 		return distanceToPlayer <= ATTACK_RANGE;
 	}
@@ -226,18 +260,39 @@ public class Enemy extends Character {
 	}
 
 	private void followPlayer() {
-	    right = false;
-	    left = false;
+		right = false;
+		left = false;
 
-	    if (hitbox.x < playerX - 10) { // Reduced buffer from 20 to 10
-	        right = true;
-	        normalMirrorState = true;
-	    } else if (hitbox.x > playerX + 10) { // Reduced buffer
-	        left = true;
-	        normalMirrorState = false;
-	    }
+		// More precise movement with smaller buffer
+		if (hitbox.x < playerX - 5) {
+			right = true;
+			normalMirrorState = true;
+		} else if (hitbox.x > playerX + 5) {
+			left = true;
+			normalMirrorState = false;
+		}
 
-	    moving = right || left;
+		// Adjust speed based on distance
+		if (distanceToPlayer > 200) {
+			run = true;
+		} else {
+			run = random.nextFloat() < 0.7f; // 70% chance to run when close
+		}
+
+		moving = right || left;
+	}
+
+	private void handleHitState(long currentTime) {
+		// Stop all movement during hit
+		left = false;
+		right = false;
+		moving = false;
+
+		// Stay in hit state until animation completes
+		if (!hit) {
+			currentState = State.RECOVERING;
+			lastHitTime = currentTime;
+		}
 	}
 
 	@Override

@@ -70,8 +70,15 @@ public class Player extends Character {
 
     public void checkAttackHit(Enemy enemy) {
         if (isAttacking() && attackHitbox.intersects(enemy.getHitbox())) {
-            // Only register hit at the end of the animation
-            if (aniIndex >= GetSpriteAmount(characterAction) - 2 && !attackProcessed) {
+            // Different timing for light vs heavy attacks
+            int hitFrame;
+            if (light_attack) {
+                hitFrame = 4; // Light attack hits on frame 4/7
+            } else {
+                hitFrame = 5; // Heavy attack hits on frame 5/11
+            }
+            
+            if (aniIndex >= hitFrame && !attackProcessed) {
                 enemy.takeDamage(light_attack ? 10 : 20);
                 attackProcessed = true;
             }

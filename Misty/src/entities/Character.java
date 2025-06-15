@@ -353,6 +353,11 @@ public abstract class Character extends Entity {
             hit = true;
             invulnerable = true;
             lastHitTime = System.currentTimeMillis();
+            // Force immediate animation change
+            characterAction = HIT;
+            resetAniTick();
+            aniSpeed = 12; // Match player's hit animation speed
+            
             if (health <= 0) {
                 health = 0;
                 death = true;
