@@ -1,10 +1,11 @@
 extends Node
 
+signal mode_changed(mode: int)
 signal game_over(victory: bool)
 signal player_health_changed(current: int, maximum: int)
 signal enemy_health_changed(current: int, maximum: int)
 
-enum GameMode { TITLE, ARENA, STORY, PAUSED, GAME_OVER }
+enum GameMode { TITLE, ARENA, PAUSED, GAME_OVER }
 
 const BASE_RESOLUTION := Vector2i(480, 270)
 
@@ -14,13 +15,50 @@ var player_max_health := 100
 var player_health := 100
 var enemy_max_health := 100
 var enemy_health := 100
+var last_victory := false
+
+func _ready() -> void:
+    _ensure_input_actions()
+
+func _ensure_input_actions() -> void:
+    _ensure_key_action("move_left", [KEY_A, KEY_LEFT])
+    _ensure_key_action("move_right", [KEY_D, KEY_RIGHT])
+    _ensure_key_action("jump", [KEY_SPACE, KEY_W, KEY_UP])
+    _ensure_key_action("run", [KEY_SHIFT])
+    _ensure_key_action("roll", [KEY_C, KEY_CTRL])
+    _ensure_key_action("light_attack", [KEY_J])
+    _ensure_key_action("heavy_attack", [KEY_K])
+    _ensure_key_action("restart", [KEY_R])
+    _ensure_key_action("pause", [KEY_P, KEY_ESCAPE])
+
+func _ensure_key_action(action_name: StringName, keys: Array[int]) -> void:
+    if not InputMap.has_action(action_name):
+        InputMap.add_action(action_name)
+    for key in keys:
+        var exists: bool = false
+        for event in InputMap.action_get_events(action_name):
+            if event is InputEventKey and event.keycode == key:
+                exists = true
+                break
+        if not exists:
+            var event: InputEventKey = InputEventKey.new()
+            event.keycode = key
+            InputMap.action_add_event(action_name, event)
 
 func reset_arena() -> void:
     mode = GameMode.ARENA
+    last_victory = false
     player_health = player_max_health
     enemy_health = enemy_max_health
+    mode_changed.emit(mode)
     player_health_changed.emit(player_health, player_max_health)
     enemy_health_changed.emit(enemy_health, enemy_max_health)
+
+func set_paused(value: bool) -> void:
+    if mode == GameMode.GAME_OVER:
+        return
+    mode = GameMode.PAUSED if value else GameMode.ARENA
+    mode_changed.emit(mode)
 
 func set_player_health(value: int) -> void:
     player_health = clampi(value, 0, player_max_health)
@@ -37,8 +75,13 @@ func set_enemy_health(value: int) -> void:
 func finish_fight(victory: bool) -> void:
     if mode == GameMode.GAME_OVER:
         return
+    last_victory = victory
     mode = GameMode.GAME_OVER
+    mode_changed.emit(mode)
     game_over.emit(victory)
+
+func is_playing() -> bool:
+    return mode == GameMode.ARENA
 
 func change_scene(path: String) -> void:
     get_tree().change_scene_to_file(path)

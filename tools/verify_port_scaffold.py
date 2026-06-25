@@ -65,10 +65,10 @@ if godot_found:
     godot = godot_found[0]
     version = subprocess.run([godot, "--version"], cwd=str(ROOT), text=True, capture_output=True, check=True)
     print("godot_version=" + version.stdout.strip())
-    for args in (["--headless", "--path", str(ROOT / "godot"), "--quit"], ["--headless", "--path", str(ROOT / "godot"), "--quit-after", "1"]):
+    for args in (["--headless", "--path", str(ROOT / "godot"), "--quit"], ["--headless", "--path", str(ROOT / "godot"), "--quit-after", "1"], ["--headless", "--path", str(ROOT / "godot"), "--script", "tests/playable_smoke.gd"]):
         proc = subprocess.run([godot] + args, cwd=str(ROOT), text=True, capture_output=True)
         output = (proc.stdout or "") + (proc.stderr or "")
-        if proc.returncode != 0 or "SCRIPT ERROR" in output or "ERROR:" in output:
+        if proc.returncode != 0 or "SCRIPT ERROR" in output or "ERROR:" in output or "PLAYABLE_SMOKE_FAIL" in output:
             print(output)
             fail(f"Godot validation failed for args: {' '.join(args)}")
     print("godot_headless=PASS")

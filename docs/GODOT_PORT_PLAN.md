@@ -139,3 +139,8 @@ Run this before committing Godot changes:
 bash tools/godot/verify_godot.sh
 python tools/verify_port_scaffold.py
 ```
+
+
+## Player quickstart
+
+See `docs/PLAYER_QUICKSTART.md`, or double-click `RUN_WAGO.bat` from the repository root.
