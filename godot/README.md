@@ -21,3 +21,19 @@ Rebuild the Java 1v1 prototype as a Godot vertical slice first:
 - victory/defeat state
 
 Then expand into the story-driven WAGO game.
+
+
+## Local Godot verification
+
+Godot was found at:
+
+```text
+C:/Softwares/Godot_v4.7-stable_win64_console.exe
+```
+
+Run this before committing Godot changes:
+
+```bash
+bash tools/godot/verify_godot.sh
+python tools/verify_port_scaffold.py
+```

@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,7 @@ REQUIRED = [
     "godot/scripts/combat/AttackData.gd",
     "godot/scripts/combat/CombatActor.gd",
     "tools/aseprite/export_aseprite.sh",
+    "tools/godot/verify_godot.sh",
     "docs/GODOT_PORT_PLAN.md",
 ]
 
@@ -45,6 +47,28 @@ aseprite_candidates = [
     "C:/Program Files/Aseprite/Aseprite.exe",
     "C:/Program Files (x86)/Steam/steamapps/common/Aseprite/Aseprite.exe",
 ]
-found = [p for p in aseprite_candidates if p and Path(p).exists()]
+aseprite_found = [p for p in aseprite_candidates if p and Path(p).exists()]
+
+godot_candidates = [
+    os.environ.get("GODOT_PATH", ""),
+    "C:/Softwares/Godot_v4.7-stable_win64_console.exe",
+    "C:/Softwares/Godot_v4.7-stable_win64.exe",
+    "C:/Softwares/Godot.exe",
+]
+godot_found = [p for p in godot_candidates if p and Path(p).exists()]
+
 print(f"godot_scaffold=PASS files={len(REQUIRED)} json=PASS scene_refs={len(refs)}")
-print("aseprite=" + (found[0] if found else "NOT_FOUND"))
+print("aseprite=" + (aseprite_found[0] if aseprite_found else "NOT_FOUND"))
+print("godot=" + (godot_found[0] if godot_found else "NOT_FOUND"))
+
+if godot_found:
+    godot = godot_found[0]
+    version = subprocess.run([godot, "--version"], cwd=str(ROOT), text=True, capture_output=True, check=True)
+    print("godot_version=" + version.stdout.strip())
+    for args in (["--headless", "--path", str(ROOT / "godot"), "--quit"], ["--headless", "--path", str(ROOT / "godot"), "--quit-after", "1"]):
+        proc = subprocess.run([godot] + args, cwd=str(ROOT), text=True, capture_output=True)
+        output = (proc.stdout or "") + (proc.stderr or "")
+        if proc.returncode != 0 or "SCRIPT ERROR" in output or "ERROR:" in output:
+            print(output)
+            fail(f"Godot validation failed for args: {' '.join(args)}")
+    print("godot_headless=PASS")

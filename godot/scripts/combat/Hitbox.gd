@@ -1,4 +1,3 @@
-class_name Hitbox
 extends Area2D
 
 signal hit_landed(target: Node)
@@ -12,7 +11,7 @@ func _ready() -> void:
     monitoring = true
     area_entered.connect(_on_area_entered)
 
-func configure(actor: Node, attack: AttackData, facing: int) -> void:
+func configure(actor: Node, attack: Resource, facing: int) -> void:
     owner_actor = actor
     damage = attack.damage
     knockback = attack.knockback
@@ -30,7 +29,7 @@ func set_active(value: bool) -> void:
 func _on_area_entered(area: Area2D) -> void:
     if not active:
         return
-    if area is Hurtbox and area.actor != owner_actor:
+    if area.has_method("receive_hit") and area.actor != owner_actor:
         area.receive_hit(damage, owner_actor, knockback)
         hit_landed.emit(area.actor)
         set_active(false)

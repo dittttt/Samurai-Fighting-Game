@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var player: Player = $Player
-@onready var enemy: RoninEnemy = $RoninEnemy
+@onready var player: Node = $Player
+@onready var enemy: Node = $RoninEnemy
 
 func _ready() -> void:
     GameManager.reset_arena()

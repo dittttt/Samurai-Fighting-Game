@@ -1,12 +1,13 @@
-class_name Player
-extends CombatActor
+extends "res://scripts/combat/CombatActor.gd"
 
-@export var light_attack: AttackData
-@export var heavy_attack: AttackData
+const AttackDataScript := preload("res://scripts/combat/AttackData.gd")
+
+@export var light_attack: Resource
+@export var heavy_attack: Resource
 @export var roll_speed := 210.0
 @export var roll_seconds := 0.22
 
-@onready var hitbox: Hitbox = $Hitbox
+@onready var hitbox: Area2D = $Hitbox
 
 var attacking := false
 var rolling := false
@@ -14,9 +15,9 @@ var rolling := false
 func _ready() -> void:
     super._ready()
     if light_attack == null:
-        light_attack = AttackData.new()
+        light_attack = AttackDataScript.new()
     if heavy_attack == null:
-        heavy_attack = AttackData.new()
+        heavy_attack = AttackDataScript.new()
         heavy_attack.name = "heavy_slash"
         heavy_attack.damage = 20
         heavy_attack.startup_seconds = 0.14
@@ -50,7 +51,7 @@ func _read_combat() -> void:
     elif Input.is_action_just_pressed("heavy_attack"):
         _attack(heavy_attack)
 
-func _attack(data: AttackData) -> void:
+func _attack(data: Resource) -> void:
     if attacking or rolling:
         return
     attacking = true

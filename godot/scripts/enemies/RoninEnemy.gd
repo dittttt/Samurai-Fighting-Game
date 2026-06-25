@@ -1,14 +1,15 @@
-class_name RoninEnemy
-extends CombatActor
+extends "res://scripts/combat/CombatActor.gd"
 
 @export var target_path: NodePath
-@export var attack_data: AttackData
+const AttackDataScript := preload("res://scripts/combat/AttackData.gd")
+
+@export var attack_data: Resource
 @export var detection_range := 180.0
 @export var attack_range := 38.0
 @export var attack_cooldown := 1.15
 
 @onready var target: Node2D = get_node_or_null(target_path)
-@onready var hitbox: Hitbox = $Hitbox
+@onready var hitbox: Area2D = $Hitbox
 
 var attacking := false
 var cooldown_left := 0.0
@@ -16,7 +17,7 @@ var cooldown_left := 0.0
 func _ready() -> void:
     super._ready()
     if attack_data == null:
-        attack_data = AttackData.new()
+        attack_data = AttackDataScript.new()
     hitbox.owner_actor = self
 
 func _physics_process(delta: float) -> void:

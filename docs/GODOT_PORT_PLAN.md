@@ -123,3 +123,19 @@ Title screen -> Elk intro dialogue -> tutorial -> Gabal guard fight -> escape wa
 ## Notes
 
 This scaffold is intentionally text-only and agent-editable. It can be committed before Godot is installed. Godot will generate `.godot/` cache files locally after first open; those are ignored by Git.
+
+
+## Local Godot verification
+
+Godot was found at:
+
+```text
+C:/Softwares/Godot_v4.7-stable_win64_console.exe
+```
+
+Run this before committing Godot changes:
+
+```bash
+bash tools/godot/verify_godot.sh
+python tools/verify_port_scaffold.py
+```
