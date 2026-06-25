@@ -22,18 +22,18 @@ func _ready() -> void:
         light_attack = AttackDataScript.new()
         light_attack.name = "light_slash"
         light_attack.damage = 10
-        light_attack.startup_seconds = 0.06
-        light_attack.active_seconds = 0.11
-        light_attack.recovery_seconds = 0.16
+        light_attack.startup_seconds = 0.40
+        light_attack.active_seconds = 0.10
+        light_attack.recovery_seconds = 0.20
         light_attack.hitbox_size = Vector2(200, 100)
         light_attack.hitbox_offset = Vector2(200, 50)
     if heavy_attack == null:
         heavy_attack = AttackDataScript.new()
         heavy_attack.name = "heavy_slash"
         heavy_attack.damage = 20
-        heavy_attack.startup_seconds = 0.14
-        heavy_attack.active_seconds = 0.13
-        heavy_attack.recovery_seconds = 0.32
+        heavy_attack.startup_seconds = 0.525
+        heavy_attack.active_seconds = 0.10
+        heavy_attack.recovery_seconds = 0.53
         heavy_attack.hitbox_size = Vector2(200, 100)
         heavy_attack.hitbox_offset = Vector2(200, 50)
         heavy_attack.knockback = Vector2(260, -80)
@@ -70,6 +70,8 @@ func _physics_process(delta: float) -> void:
 func _select_visual_action() -> void:
     if dead:
         set_visual_action(6, false)
+    elif hit_reacting:
+        set_visual_action(5, false)
     elif attacking:
         set_visual_action(8 if current_visual_action == 8 else 7, false)
     elif rolling:
@@ -98,7 +100,7 @@ func _read_combat() -> void:
         _attack(heavy_attack)
 
 func _attack(data: Resource) -> void:
-    if attacking or rolling or dead or not GameManager.is_playing():
+    if attacking or rolling or hit_reacting or dead or not GameManager.is_playing():
         return
     attacking = true
     set_visual_action(8 if data == heavy_attack else 7, false, true)

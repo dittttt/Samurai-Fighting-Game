@@ -16,6 +16,7 @@ signal died
 @export var jump_velocity := -2250.0
 @export var gravity := 8000.0
 @export var invulnerability_seconds := 0.30
+@export var hit_reaction_seconds := 0.36
 @export var body_color := Color(0.86, 0.84, 0.74, 1.0)
 @export var accent_color := Color(0.35, 0.05, 0.09, 1.0)
 @export var nameplate := "Fighter"
@@ -24,6 +25,7 @@ var health := 100
 var facing := 1
 var invulnerable := false
 var dead := false
+var hit_reacting := false
 var atlas_animator: Node = null
 var current_visual_action := 0
 
@@ -70,6 +72,7 @@ func reset_actor(start_position: Vector2) -> void:
     facing = 1
     invulnerable = false
     dead = false
+    hit_reacting = false
     queue_redraw()
 
 func apply_gravity(delta: float) -> void:
@@ -100,9 +103,16 @@ func take_damage(amount: int, source: Node = null, knockback: Vector2 = Vector2.
         set_visual_action(6, false, true)
         died.emit()
     else:
-        set_visual_action(5, false, true)
+        _begin_hit_reaction()
         _begin_invulnerability()
     queue_redraw()
+
+func _begin_hit_reaction() -> void:
+    hit_reacting = true
+    set_visual_action(5, false, true)
+    await get_tree().create_timer(hit_reaction_seconds).timeout
+    if not dead:
+        hit_reacting = false
 
 func _begin_invulnerability() -> void:
     invulnerable = true

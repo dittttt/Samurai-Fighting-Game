@@ -4,10 +4,10 @@ const AttackDataScript := preload("res://scripts/combat/AttackData.gd")
 
 @export var target_path: NodePath
 @export var attack_data: Resource
-@export var detection_range := 1200.0
-@export var attack_range := 250.0
-@export var desired_range := 180.0
-@export var attack_cooldown := 0.95
+@export var detection_range := 400.0
+@export var attack_range := 60.0
+@export var desired_range := 50.0
+@export var attack_cooldown := 1.50
 
 @onready var target: Node2D = get_node_or_null(target_path)
 @onready var hitbox: Area2D = $Hitbox
@@ -25,9 +25,9 @@ func _ready() -> void:
         attack_data = AttackDataScript.new()
         attack_data.name = "ronin_slash"
         attack_data.damage = 10
-        attack_data.startup_seconds = 0.16
-        attack_data.active_seconds = 0.11
-        attack_data.recovery_seconds = 0.28
+        attack_data.startup_seconds = 0.40
+        attack_data.active_seconds = 0.10
+        attack_data.recovery_seconds = 0.20
         attack_data.hitbox_size = Vector2(200, 100)
         attack_data.hitbox_offset = Vector2(200, 50)
     hitbox.owner_actor = self
@@ -35,7 +35,7 @@ func _ready() -> void:
 func reset_actor(start_position: Vector2) -> void:
     super.reset_actor(start_position)
     attacking = false
-    cooldown_left = 0.45
+    cooldown_left = 0.0
     if is_instance_valid(hitbox):
         hitbox.set_active(false)
 
@@ -64,6 +64,8 @@ func _physics_process(delta: float) -> void:
 func _select_visual_action() -> void:
     if dead:
         set_visual_action(6, false)
+    elif hit_reacting:
+        set_visual_action(5, false)
     elif attacking:
         set_visual_action(7, false)
     elif not is_on_floor():
@@ -88,7 +90,7 @@ func _think() -> void:
         velocity.x = 0
 
 func _attack() -> void:
-    if attacking or dead or not GameManager.is_playing():
+    if attacking or hit_reacting or dead or not GameManager.is_playing():
         return
     attacking = true
     set_visual_action(7, false, true)

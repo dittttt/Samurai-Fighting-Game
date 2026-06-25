@@ -12,12 +12,22 @@ const FRAME_COUNTS := {
     7: 7,  # light attack
     8: 11, # heavy attack
 }
+const FRAME_SECONDS := {
+    0: 0.150, # idle: Java aniSpeed 30 at 200 UPS
+    1: 0.100, # running: Java aniSpeed 20
+    2: 0.150, # walking: Java aniSpeed 30
+    3: 0.150, # jump/fall: Java default aniSpeed 30
+    4: 0.100, # roll: Java aniSpeed 20
+    5: 0.060, # hit: Java aniSpeed 12
+    6: 0.060, # death: Java aniSpeed 12
+    7: 0.100, # light attack: Java aniSpeed 20
+    8: 0.105, # heavy attack: Java aniSpeed 21
+}
 
 var sprite: Sprite2D
 var action_row := 0
 var frame_index := 0
 var frame_tick := 0.0
-var frame_seconds := 0.075
 var loop := true
 
 func setup(target_sprite: Sprite2D, texture_path: String) -> void:
@@ -46,7 +56,8 @@ func update(delta: float) -> void:
     if sprite == null:
         return
     frame_tick += delta
-    if frame_tick < frame_seconds:
+    var seconds_per_frame: float = float(FRAME_SECONDS.get(action_row, 0.150))
+    if frame_tick < seconds_per_frame:
         return
     frame_tick = 0.0
     var max_frames: int = int(FRAME_COUNTS.get(action_row, 1))
