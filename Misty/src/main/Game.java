@@ -1,10 +1,9 @@
 
 package main;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.io.File;
+import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -46,8 +45,9 @@ public class Game implements Runnable {
 		gameWindow = new GameWindow(gamePanel); // Initialize the GameWindow instance
 		gamePanel.requestFocus();
 
-		playMusic("audio/menu.wav");
-		playInGameMusic("audio/ingame.wav");
+		loadMenuMusic("audio/menu.wav");
+		loadInGameMusic("audio/ingame.wav");
+		startMenuMusic();
 
 		startGameLoop();
 	}
@@ -76,6 +76,9 @@ public class Game implements Runnable {
 			startInGameMusic();
 			break;
 		case GAME_OVER:
+			playing.update();
+			stopInGameMusic();
+			break;
 		case VICTORY:
 			break;
 		case OPTIONS:
@@ -95,6 +98,7 @@ public class Game implements Runnable {
 			playing.draw(g);
 			break;
 		case GAME_OVER:
+			playing.draw(g);
 			break;
 		case VICTORY:
 			break;
@@ -176,23 +180,40 @@ public class Game implements Runnable {
 		// Add logic to mute/unmute sound effects if implemented
 	}
 
-	private void playMusic(String filepath) {
+	private void loadMenuMusic(String filepath) {
+		menuMusicClip = loadClip(filepath);
+	}
+
+	private void loadInGameMusic(String filepath) {
+		inGameMusicClip = loadClip(filepath);
+	}
+
+	private Clip loadClip(String filepath) {
 		try {
-			File musicFile = new File(System.getProperty("user.dir") + File.separator + filepath);
-			if (musicFile.exists()) {
-				AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
-				menuMusicClip = AudioSystem.getClip();
-				menuMusicClip.open(audioInput);
-				if (!isMusicMuted) {
-					menuMusicClip.start();
-					menuMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
-				}
-			} else {
-				System.out.println("Can't find file!");
-			}
+			AudioInputStream audioInput = openAudioStream(filepath);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInput);
+			return clip;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Could not load audio file: " + filepath);
+			return null;
 		}
+	}
+
+	private AudioInputStream openAudioStream(String filepath) throws Exception {
+		URL resource = getClass().getClassLoader().getResource(filepath);
+		if (resource == null) {
+			resource = getClass().getClassLoader().getResource(new File(filepath).getName());
+		}
+		if (resource != null) {
+			return AudioSystem.getAudioInputStream(resource);
+		}
+
+		File musicFile = new File(System.getProperty("user.dir"), filepath);
+		if (!musicFile.exists()) {
+			musicFile = new File(System.getProperty("user.dir"), "Misty" + File.separator + filepath);
+		}
+		return AudioSystem.getAudioInputStream(musicFile);
 	}
 
 	private void stopMenuMusic() {
@@ -205,25 +226,6 @@ public class Game implements Runnable {
 		if (menuMusicClip != null && !menuMusicClip.isRunning() && !isMusicMuted) {
 			menuMusicClip.start();
 			menuMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-	}
-
-	private void playInGameMusic(String filepath) {
-		try {
-			File musicFile = new File(System.getProperty("user.dir") + File.separator + filepath);
-			if (musicFile.exists()) {
-				AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
-				inGameMusicClip = AudioSystem.getClip();
-				inGameMusicClip.open(audioInput);
-				if (!isMusicMuted) {
-					inGameMusicClip.start();
-					inGameMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
-				}
-			} else {
-				System.out.println("Can't find file!");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

@@ -63,7 +63,6 @@ public class Playing extends State implements Statemethods {
 			if (player.getHealth() <= 0 || enemy.getHealth() <= 0) {
 				gameOver = true;
 				Gamestate.state = Gamestate.GAME_OVER;
-				System.out.println("Game Over triggered"); // Debug line
 			}
 		} else if (paused) {
 			pauseOverlay.update();
@@ -74,6 +73,8 @@ public class Playing extends State implements Statemethods {
 
 	public void resetAll() {
 		gameOver = false;
+		paused = false;
+		lastHDamageTime = 0;
 		player = new Player(100, 200, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE));
 		enemy = new Enemy(1719, 200, (int) (112 * Game.SCALE), (int) (72 * Game.SCALE), player);
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());

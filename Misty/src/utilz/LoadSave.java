@@ -27,13 +27,19 @@ public class LoadSave {
 	public static final String MENU_BACKGROUND_IMG = "background3.gif";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
-		BufferedImage img = null;
 		InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
-		try {
-			img = ImageIO.read(is);
+		if (is == null) {
+			throw new IllegalStateException("Missing resource: " + fileName);
+		}
 
+		try {
+			BufferedImage img = ImageIO.read(is);
+			if (img == null) {
+				throw new IllegalStateException("Unsupported image resource: " + fileName);
+			}
+			return img;
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new IllegalStateException("Could not load resource: " + fileName, e);
 		} finally {
 			try {
 				is.close();
@@ -41,7 +47,6 @@ public class LoadSave {
 				e.printStackTrace();
 			}
 		}
-		return img;
 	}
 	
 	

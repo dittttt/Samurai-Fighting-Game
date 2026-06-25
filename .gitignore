@@ -1,1 +1,5 @@
 /.metadata/
+/build/
+/godot/.godot/
+/godot/exported/
+*.tmp

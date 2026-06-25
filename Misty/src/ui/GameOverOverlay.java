@@ -42,7 +42,6 @@ public class GameOverOverlay {
 	}
 
 	public void draw(Graphics g) {
-		System.out.println("Drawing GameOverOverlay"); // Debug line
 
 		// Dark overlay
 		g.setColor(new Color(0, 0, 0, 200));
@@ -70,18 +69,13 @@ public class GameOverOverlay {
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("Mouse released at: " + e.getX() + "," + e.getY());
-		System.out.println("Replay button bounds: " + replayButton.getBounds());
-		System.out.println("Menu button bounds: " + menuButton.getBounds());
 
 		if (isIn(replayButton, e)) {
-			System.out.println("Replay button clicked");
 			if (replayButton.isMousePressed()) {
 				playing.resetAll();
 				Gamestate.state = Gamestate.PLAYING;
 			}
 		} else if (isIn(menuButton, e)) {
-			System.out.println("Menu button clicked");
 			if (menuButton.isMousePressed()) {
 				playing.resetAll();
 				Gamestate.state = Gamestate.MENU;

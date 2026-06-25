@@ -97,23 +97,31 @@ public class Player extends Character {
 
     // Player-specific methods
     public void setLightAttack(boolean light_attack) {
-        this.light_attack = light_attack;
-        this.attackProcessed = false;
+        if (light_attack && !isAttacking()) {
+            this.light_attack = true;
+            this.attackProcessed = false;
+            resetAniTick();
+        } else if (!light_attack) {
+            this.light_attack = false;
+        }
     }
 
     public void setHeavyAttack(boolean heavy_attack) {
-        this.heavy_attack = heavy_attack;
-        this.attackProcessed = false;
+        if (heavy_attack && !isAttacking()) {
+            this.heavy_attack = true;
+            this.attackProcessed = false;
+            resetAniTick();
+        } else if (!heavy_attack) {
+            this.heavy_attack = false;
+        }
     }
 
     public void toggleLightAttack(boolean light_attack) {
-        this.light_attack = true;
-        this.attackProcessed = false;
+        setLightAttack(light_attack);
     }
 
     public void toggleHeavyAttack(boolean heavy_attack) {
-        this.heavy_attack = true;
-        this.attackProcessed = false;
+        setHeavyAttack(heavy_attack);
     }
 
     public void toggleDeath(boolean death) {

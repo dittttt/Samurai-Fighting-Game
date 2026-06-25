@@ -69,6 +69,7 @@ public class Enemy extends Character {
 		}
 
 		updateCharacter();
+		processAttackDamage();
 	}
 
 	@Override
@@ -232,18 +233,31 @@ public class Enemy extends Character {
 	}
 
 	private void attack() {
-		if (distanceToPlayer < ATTACK_RANGE * 0.7f) {
-			heavy_attack = true;
-			if (checkPlayerInRange() && aniIndex >= GetSpriteAmount(characterAction) / 2 && !attackProcessed) {
-				player.takeDamage(HEAVY_ATTACK_DAMAGE);
-				attackProcessed = true;
+		left = false;
+		right = false;
+		moving = false;
+
+		if (!isAttacking()) {
+			if (distanceToPlayer < ATTACK_RANGE * 0.7f) {
+				heavy_attack = true;
+			} else {
+				light_attack = true;
 			}
-		} else {
-			light_attack = true;
-			if (checkPlayerInRange() && aniIndex >= GetSpriteAmount(characterAction) / 3 && !attackProcessed) {
-				player.takeDamage(LIGHT_ATTACK_DAMAGE);
-				attackProcessed = true;
-			}
+			attackProcessed = false;
+			resetAniTick();
+		}
+	}
+
+	private void processAttackDamage() {
+		if (!isAttacking() || attackProcessed || player.getHealth() <= 0) {
+			return;
+		}
+
+		int hitFrame = light_attack ? 4 : 5;
+		int damage = light_attack ? LIGHT_ATTACK_DAMAGE : HEAVY_ATTACK_DAMAGE;
+		if (aniIndex >= hitFrame && attackHitbox.intersects(player.getHitbox())) {
+			player.takeDamage(damage);
+			attackProcessed = true;
 		}
 	}
 

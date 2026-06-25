@@ -1,0 +1,15 @@
+{
+  "name": "heavy_slash",
+  "damage": 20,
+  "startup_seconds": 0.14,
+  "active_seconds": 0.12,
+  "recovery_seconds": 0.32,
+  "hitbox_size": [
+    42,
+    22
+  ],
+  "hitbox_offset": [
+    26,
+    -5
+  ]
+}
