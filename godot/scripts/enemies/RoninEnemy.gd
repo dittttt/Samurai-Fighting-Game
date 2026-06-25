@@ -4,9 +4,9 @@ const AttackDataScript := preload("res://scripts/combat/AttackData.gd")
 
 @export var target_path: NodePath
 @export var attack_data: Resource
-@export var detection_range := 260.0
-@export var attack_range := 42.0
-@export var desired_range := 34.0
+@export var detection_range := 1200.0
+@export var attack_range := 250.0
+@export var desired_range := 180.0
 @export var attack_cooldown := 0.95
 
 @onready var target: Node2D = get_node_or_null(target_path)
@@ -28,8 +28,8 @@ func _ready() -> void:
         attack_data.startup_seconds = 0.16
         attack_data.active_seconds = 0.11
         attack_data.recovery_seconds = 0.28
-        attack_data.hitbox_size = Vector2(36, 20)
-        attack_data.hitbox_offset = Vector2(24, -18)
+        attack_data.hitbox_size = Vector2(200, 100)
+        attack_data.hitbox_offset = Vector2(200, 50)
     hitbox.owner_actor = self
 
 func reset_actor(start_position: Vector2) -> void:

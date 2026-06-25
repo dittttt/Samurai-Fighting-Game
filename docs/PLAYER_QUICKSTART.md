@@ -46,4 +46,4 @@ res://scenes/main/Main.tscn
 
 ## Current state
 
-This is now a playable 1v1 vertical-slice prototype in Godot using placeholder pixel-art shapes. The next step is replacing placeholders with Aseprite character sprites and adding the first story/tutorial scene.
+This is now a playable 1v1 Godot port baseline using the original Misty samurai/ronin atlases, village tile art, and the original Java render resolution. The next step is improving animation/function parity, then expanding into the first WAGO story/tutorial scene.

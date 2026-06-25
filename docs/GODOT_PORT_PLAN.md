@@ -12,7 +12,7 @@
 
 ## Current changes made
 
-- Added `godot/project.godot` configured for pixel-perfect 480x270 viewport scaling.
+- Added `godot/project.godot` configured to match the original Misty Java panel: `1920x1120` (`12 x 7` tiles at `160px`).
 - Added autoload managers: `GameManager`, `DialogueManager`, `StoryFlags`.
 - Added starter combat scripts: `CombatActor`, `AttackData`, `Hitbox`, `Hurtbox`.
 - Added starter player and ronin enemy scripts.
@@ -79,7 +79,7 @@ godot/scenes/main/Main.tscn
 
 Fix any editor auto-upgrade warnings Godot reports.
 
-### Task 3: Replace placeholder boxes with real sprites
+### Task 3: Continue refining migrated Misty sprites
 
 1. Create `art/aseprite/wago.aseprite`.
 2. Tag animations in Aseprite.

@@ -2,15 +2,19 @@ class_name CombatActor
 extends CharacterBody2D
 
 const LegacyAtlasAnimator := preload("res://scripts/visuals/LegacyAtlasAnimator.gd")
+const WORLD_LAYER := 1
+const ACTOR_LAYER := 2
+const WORLD_MASK := 1
+const ACTOR_AND_WORLD_MASK := 3
 
 signal damaged(amount: int, source: Node)
 signal died
 
 @export var max_health := 100
-@export var move_speed := 92.0
-@export var run_speed := 140.0
-@export var jump_velocity := -245.0
-@export var gravity := 720.0
+@export var move_speed := 600.0
+@export var run_speed := 850.0
+@export var jump_velocity := -2250.0
+@export var gravity := 8000.0
 @export var invulnerability_seconds := 0.30
 @export var body_color := Color(0.86, 0.84, 0.74, 1.0)
 @export var accent_color := Color(0.35, 0.05, 0.09, 1.0)
@@ -24,6 +28,8 @@ var atlas_animator: Node = null
 var current_visual_action := 0
 
 func _ready() -> void:
+    collision_layer = ACTOR_LAYER
+    collision_mask = ACTOR_AND_WORLD_MASK
     health = max_health
     queue_redraw()
 
@@ -33,8 +39,8 @@ func setup_legacy_sprite(texture_path: String) -> void:
         sprite = Sprite2D.new()
         sprite.name = "Sprite2D"
         add_child(sprite)
-    sprite.position = Vector2(0, -36)
-    sprite.scale = Vector2(1.35, 1.35)
+    sprite.position = Vector2(60, 0)
+    sprite.scale = Vector2(5.0, 5.0)
     atlas_animator = LegacyAtlasAnimator.new()
     add_child(atlas_animator)
     atlas_animator.setup(sprite, texture_path)
@@ -48,6 +54,14 @@ func update_visual(delta: float) -> void:
     if atlas_animator != null:
         atlas_animator.set_facing(facing)
         atlas_animator.update(delta)
+
+func set_actor_passthrough(enabled: bool) -> void:
+    if enabled:
+        collision_layer = 0
+        collision_mask = WORLD_MASK
+    else:
+        collision_layer = ACTOR_LAYER
+        collision_mask = ACTOR_AND_WORLD_MASK
 
 func reset_actor(start_position: Vector2) -> void:
     global_position = start_position
@@ -83,8 +97,10 @@ func take_damage(amount: int, source: Node = null, knockback: Vector2 = Vector2.
     if health <= 0:
         dead = true
         invulnerable = false
+        set_visual_action(6, false, true)
         died.emit()
     else:
+        set_visual_action(5, false, true)
         _begin_invulnerability()
     queue_redraw()
 

@@ -9,16 +9,16 @@
 [ext_resource type="Script" path="res://scripts/levels/LegacyMistyLevel.gd" id="7"]
 
 [sub_resource type="RectangleShape2D" id="RectActor"]
-size = Vector2(14, 38)
+size = Vector2(100, 150)
 
 [sub_resource type="RectangleShape2D" id="RectHurt"]
-size = Vector2(18, 40)
+size = Vector2(100, 150)
 
 [sub_resource type="RectangleShape2D" id="RectHit"]
-size = Vector2(36, 20)
+size = Vector2(200, 100)
 
 [sub_resource type="RectangleShape2D" id="RectGround"]
-size = Vector2(520, 18)
+size = Vector2(1920, 160)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1")
@@ -27,45 +27,45 @@ script = ExtResource("1")
 script = ExtResource("7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(240, 135)
+position = Vector2(960, 560)
 enabled = true
 
 [node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2(240, 244)
+position = Vector2(960, 1040)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 shape = SubResource("RectGround")
 
 [node name="LeftWall" type="StaticBody2D" parent="."]
-position = Vector2(14, 190)
+position = Vector2(-10, 560)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
 shape = SubResource("RectGround")
 rotation = 1.5708
 
 [node name="RightWall" type="StaticBody2D" parent="."]
-position = Vector2(466, 190)
+position = Vector2(1930, 560)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
 shape = SubResource("RectGround")
 rotation = 1.5708
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(128, 210)
+position = Vector2(100, 200)
 script = ExtResource("2")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
-position = Vector2(0, -36)
+position = Vector2(60, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(0, -19)
+position = Vector2(50, 75)
 shape = SubResource("RectActor")
 
 [node name="Hurtbox" type="Area2D" parent="Player"]
 script = ExtResource("5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hurtbox"]
-position = Vector2(0, -20)
+position = Vector2(50, 75)
 shape = SubResource("RectHurt")
 
 [node name="Hitbox" type="Area2D" parent="Player"]
@@ -76,22 +76,22 @@ shape = SubResource("RectHit")
 disabled = true
 
 [node name="RoninEnemy" type="CharacterBody2D" parent="."]
-position = Vector2(352, 210)
+position = Vector2(1719, 200)
 script = ExtResource("3")
 target_path = NodePath("../Player")
 
 [node name="Sprite2D" type="Sprite2D" parent="RoninEnemy"]
-position = Vector2(0, -36)
+position = Vector2(60, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoninEnemy"]
-position = Vector2(0, -19)
+position = Vector2(50, 75)
 shape = SubResource("RectActor")
 
 [node name="Hurtbox" type="Area2D" parent="RoninEnemy"]
 script = ExtResource("5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoninEnemy/Hurtbox"]
-position = Vector2(0, -20)
+position = Vector2(50, 75)
 shape = SubResource("RectHurt")
 
 [node name="Hitbox" type="Area2D" parent="RoninEnemy"]
@@ -119,19 +119,19 @@ offset_bottom = -8.0
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer"]
 
 [node name="TitleLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
-text = "WAGO - Prototype Arena"
+text = "Misty / WAGO - Godot Port Baseline"
 
 [node name="StoryLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
-text = "WAGO prototype: defeat the ronin."
+text = "Port baseline: same Misty resolution/assets first; metroidvania next."
 
 [node name="PlayerHealth" type="ProgressBar" parent="HUD/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(240, 14)
+custom_minimum_size = Vector2(200, 20)
 max_value = 100.0
 value = 100.0
 show_percentage = false
 
 [node name="EnemyHealth" type="ProgressBar" parent="HUD/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(240, 14)
+custom_minimum_size = Vector2(200, 20)
 max_value = 100.0
 value = 100.0
 show_percentage = false

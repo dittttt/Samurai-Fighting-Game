@@ -12,7 +12,7 @@ func _ready() -> void:
     GameManager.game_over.connect(_on_game_over)
     GameManager.mode_changed.connect(_on_mode_changed)
     controls_label.text = "Move: A/D or Arrows    Jump: Space/W/Up    Roll: C/Ctrl    Attack: J/K    Pause: P/Esc    Restart: R"
-    story_label.text = "WAGO prototype: defeat the ronin. Placeholder art now; Aseprite sprites come next."
+    story_label.text = "Misty 1v1 port baseline: match the original first, then expand into WAGO."
     result_label.text = ""
 
 func _on_player_health_changed(current: int, maximum: int) -> void:

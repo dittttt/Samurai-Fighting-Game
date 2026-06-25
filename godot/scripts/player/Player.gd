@@ -4,7 +4,7 @@ const AttackDataScript := preload("res://scripts/combat/AttackData.gd")
 
 @export var light_attack: Resource
 @export var heavy_attack: Resource
-@export var roll_speed := 210.0
+@export var roll_speed := 1200.0
 @export var roll_seconds := 0.22
 
 @onready var hitbox: Area2D = $Hitbox
@@ -25,24 +25,25 @@ func _ready() -> void:
         light_attack.startup_seconds = 0.06
         light_attack.active_seconds = 0.11
         light_attack.recovery_seconds = 0.16
-        light_attack.hitbox_size = Vector2(36, 20)
-        light_attack.hitbox_offset = Vector2(24, -18)
+        light_attack.hitbox_size = Vector2(200, 100)
+        light_attack.hitbox_offset = Vector2(200, 50)
     if heavy_attack == null:
         heavy_attack = AttackDataScript.new()
         heavy_attack.name = "heavy_slash"
-        heavy_attack.damage = 24
+        heavy_attack.damage = 20
         heavy_attack.startup_seconds = 0.14
         heavy_attack.active_seconds = 0.13
         heavy_attack.recovery_seconds = 0.32
-        heavy_attack.hitbox_size = Vector2(44, 24)
-        heavy_attack.hitbox_offset = Vector2(28, -18)
-        heavy_attack.knockback = Vector2(170, -40)
+        heavy_attack.hitbox_size = Vector2(200, 100)
+        heavy_attack.hitbox_offset = Vector2(200, 50)
+        heavy_attack.knockback = Vector2(260, -80)
     hitbox.owner_actor = self
 
 func reset_actor(start_position: Vector2) -> void:
     super.reset_actor(start_position)
     attacking = false
     rolling = false
+    set_actor_passthrough(false)
     if is_instance_valid(hitbox):
         hitbox.set_active(false)
 
@@ -76,7 +77,7 @@ func _select_visual_action() -> void:
     elif not is_on_floor():
         set_visual_action(3, true)
     elif absf(velocity.x) > 5.0:
-        set_visual_action(1, true)
+        set_visual_action(1 if Input.is_action_pressed("run") else 2, true)
     else:
         set_visual_action(0, true)
 
@@ -119,7 +120,9 @@ func _roll() -> void:
         return
     rolling = true
     invulnerable = true
+    set_actor_passthrough(true)
     velocity.x = facing * roll_speed
     await get_tree().create_timer(roll_seconds).timeout
     invulnerable = false
     rolling = false
+    set_actor_passthrough(false)

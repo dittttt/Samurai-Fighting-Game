@@ -19,10 +19,13 @@ func configure(actor: Node, attack: Resource, actor_facing: int) -> void:
     hit_targets.clear()
     damage = int(attack.damage)
     knockback = attack.knockback
-    position = Vector2(float(attack.hitbox_offset.x) * actor_facing, float(attack.hitbox_offset.y))
     var shape := get_node_or_null("CollisionShape2D") as CollisionShape2D
     if shape and shape.shape is RectangleShape2D:
         shape.shape.size = attack.hitbox_size
+    var attack_width: float = float(attack.hitbox_size.x)
+    var actor_width := 100.0
+    var x_offset := actor_width + attack_width * 0.5 if actor_facing >= 0 else -attack_width * 0.5
+    position = Vector2(x_offset, float(attack.hitbox_offset.y))
 
 func set_active(value: bool) -> void:
     active = value

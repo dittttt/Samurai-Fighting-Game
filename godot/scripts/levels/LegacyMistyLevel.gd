@@ -1,7 +1,8 @@
 extends Node2D
 
-const TILE_SIZE := 32
-const MAP_OFFSET := Vector2(48, 46)
+const SOURCE_TILE_SIZE := 32
+const DRAW_TILE_SIZE := 160
+const MAP_OFFSET := Vector2.ZERO
 
 var atlas: Texture2D
 var level_image: Image
@@ -31,6 +32,6 @@ func _draw() -> void:
     for y in range(map_height):
         for x in range(map_width):
             var value: int = level_data[y * map_width + x]
-            var src := Rect2((value % 12) * TILE_SIZE, int(value / 12) * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-            var dst := Rect2(MAP_OFFSET.x + x * TILE_SIZE, MAP_OFFSET.y + y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            var src := Rect2((value % 12) * SOURCE_TILE_SIZE, int(value / 12) * SOURCE_TILE_SIZE, SOURCE_TILE_SIZE, SOURCE_TILE_SIZE)
+            var dst := Rect2(MAP_OFFSET.x + x * DRAW_TILE_SIZE, MAP_OFFSET.y + y * DRAW_TILE_SIZE, DRAW_TILE_SIZE, DRAW_TILE_SIZE)
             draw_texture_rect_region(atlas, dst, src)

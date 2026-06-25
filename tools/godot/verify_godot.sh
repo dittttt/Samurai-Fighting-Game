@@ -27,3 +27,4 @@ echo "Godot: $GODOT"
 "$GODOT" --headless --path "$ROOT/godot" --quit
 "$GODOT" --headless --path "$ROOT/godot" --quit-after 1
 "$GODOT" --headless --path "$ROOT/godot" --script tests/playable_smoke.gd
+"$GODOT" --headless --path "$ROOT/godot" --script tests/port_baseline_smoke.gd
