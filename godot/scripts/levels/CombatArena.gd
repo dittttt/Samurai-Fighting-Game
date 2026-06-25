@@ -9,6 +9,7 @@ const ENEMY_START := Vector2(352, 210)
 var paused_overlay_alpha := 0.0
 
 func _ready() -> void:
+    _start_music()
     player.damaged.connect(_on_player_damaged)
     enemy.damaged.connect(_on_enemy_damaged)
     player.died.connect(func(): GameManager.finish_fight(false))
@@ -16,6 +17,23 @@ func _ready() -> void:
     GameManager.mode_changed.connect(func(_mode: int): queue_redraw())
     GameManager.game_over.connect(func(_victory: bool): queue_redraw())
     reset_fight()
+
+func _start_music() -> void:
+    if DisplayServer.get_name() == "headless":
+        return
+    var music_player := get_node_or_null("MusicPlayer") as AudioStreamPlayer
+    if music_player == null:
+        return
+    music_player.stream = load("res://assets/legacy_misty/audio/ingame.mp3")
+    if music_player.stream:
+        music_player.volume_db = -12.0
+        music_player.play()
+
+func _exit_tree() -> void:
+    var music_player := get_node_or_null("MusicPlayer") as AudioStreamPlayer
+    if music_player:
+        music_player.stop()
+        music_player.stream = null
 
 func reset_fight() -> void:
     player.reset_actor(PLAYER_START)

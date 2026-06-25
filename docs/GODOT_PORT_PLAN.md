@@ -144,3 +144,15 @@ python tools/verify_port_scaffold.py
 ## Player quickstart
 
 See `docs/PLAYER_QUICKSTART.md`, or double-click `RUN_WAGO.bat` from the repository root.
+
+
+## Misty Java prototype assets are source material
+
+The original Java 1v1 game under `Misty/` is not discarded. Its samurai/ronin atlases, village tiles, UI art, and music have been copied into `godot/assets/legacy_misty/` and documented in `docs/MISTY_ASSET_INVENTORY.md`. The current Godot prototype uses those original character atlases and the old village tile data instead of only placeholder shapes.
+
+For the metroidvania, treat Misty as the combat/asset seed:
+
+1. Preserve `1v1` branch as the Java snapshot.
+2. Use `main` for the Godot metroidvania.
+3. Migrate old combat feel first.
+4. Expand into WAGO story regions: Elk, roads of Froy, Pahica tournament, Lyon archives, Gabal strongholds, and Arthur/Umbral endgame spaces.

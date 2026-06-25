@@ -1,6 +1,8 @@
 class_name CombatActor
 extends CharacterBody2D
 
+const LegacyAtlasAnimator := preload("res://scripts/visuals/LegacyAtlasAnimator.gd")
+
 signal damaged(amount: int, source: Node)
 signal died
 
@@ -18,10 +20,34 @@ var health := 100
 var facing := 1
 var invulnerable := false
 var dead := false
+var atlas_animator: Node = null
+var current_visual_action := 0
 
 func _ready() -> void:
     health = max_health
     queue_redraw()
+
+func setup_legacy_sprite(texture_path: String) -> void:
+    var sprite := get_node_or_null("Sprite2D") as Sprite2D
+    if sprite == null:
+        sprite = Sprite2D.new()
+        sprite.name = "Sprite2D"
+        add_child(sprite)
+    sprite.position = Vector2(0, -36)
+    sprite.scale = Vector2(1.35, 1.35)
+    atlas_animator = LegacyAtlasAnimator.new()
+    add_child(atlas_animator)
+    atlas_animator.setup(sprite, texture_path)
+
+func set_visual_action(row: int, should_loop: bool = true, restart: bool = false) -> void:
+    current_visual_action = row
+    if atlas_animator != null:
+        atlas_animator.set_action(row, should_loop, restart)
+
+func update_visual(delta: float) -> void:
+    if atlas_animator != null:
+        atlas_animator.set_facing(facing)
+        atlas_animator.update(delta)
 
 func reset_actor(start_position: Vector2) -> void:
     global_position = start_position
@@ -72,6 +98,8 @@ func _process(_delta: float) -> void:
     queue_redraw()
 
 func _draw() -> void:
+    if atlas_animator != null:
+        return
     var alpha: float = 0.45 if invulnerable and Engine.get_physics_frames() % 8 < 4 else 1.0
     var body: Color = body_color
     body.a = alpha

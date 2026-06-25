@@ -20,6 +20,7 @@ func _ready() -> void:
     accent_color = Color(0.04, 0.07, 0.11)
     nameplate = "Ronin"
     super._ready()
+    setup_legacy_sprite("res://assets/legacy_misty/res/ronin_atlas.png")
     if attack_data == null:
         attack_data = AttackDataScript.new()
         attack_data.name = "ronin_slash"
@@ -39,6 +40,8 @@ func reset_actor(start_position: Vector2) -> void:
         hitbox.set_active(false)
 
 func _physics_process(delta: float) -> void:
+    _select_visual_action()
+    update_visual(delta)
     if target == null:
         return
     if dead:
@@ -56,6 +59,19 @@ func _physics_process(delta: float) -> void:
     if not attacking:
         _think()
     move_and_slide()
+
+
+func _select_visual_action() -> void:
+    if dead:
+        set_visual_action(6, false)
+    elif attacking:
+        set_visual_action(7, false)
+    elif not is_on_floor():
+        set_visual_action(3, true)
+    elif absf(velocity.x) > 5.0:
+        set_visual_action(1, true)
+    else:
+        set_visual_action(0, true)
 
 func _think() -> void:
     var distance: float = target.global_position.x - global_position.x
@@ -75,6 +91,7 @@ func _attack() -> void:
     if attacking or dead or not GameManager.is_playing():
         return
     attacking = true
+    set_visual_action(7, false, true)
     cooldown_left = attack_cooldown
     velocity.x = 0
     hitbox.configure(self, attack_data, facing)

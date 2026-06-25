@@ -17,6 +17,7 @@ func _ready() -> void:
     accent_color = Color(0.47, 0.03, 0.09)
     nameplate = "Wago"
     super._ready()
+    setup_legacy_sprite("res://assets/legacy_misty/res/samurai_atlas.png")
     if light_attack == null:
         light_attack = AttackDataScript.new()
         light_attack.name = "light_slash"
@@ -46,6 +47,8 @@ func reset_actor(start_position: Vector2) -> void:
         hitbox.set_active(false)
 
 func _physics_process(delta: float) -> void:
+    _select_visual_action()
+    update_visual(delta)
     if dead:
         apply_gravity(delta)
         velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
@@ -61,6 +64,21 @@ func _physics_process(delta: float) -> void:
         _read_movement()
         _read_combat()
     move_and_slide()
+
+
+func _select_visual_action() -> void:
+    if dead:
+        set_visual_action(6, false)
+    elif attacking:
+        set_visual_action(8 if current_visual_action == 8 else 7, false)
+    elif rolling:
+        set_visual_action(4, false)
+    elif not is_on_floor():
+        set_visual_action(3, true)
+    elif absf(velocity.x) > 5.0:
+        set_visual_action(1, true)
+    else:
+        set_visual_action(0, true)
 
 func _read_movement() -> void:
     var direction: float = Input.get_axis("move_left", "move_right")
@@ -82,6 +100,7 @@ func _attack(data: Resource) -> void:
     if attacking or rolling or dead or not GameManager.is_playing():
         return
     attacking = true
+    set_visual_action(8 if data == heavy_attack else 7, false, true)
     velocity.x = 0
     hitbox.configure(self, data, facing)
     await get_tree().create_timer(data.startup_seconds).timeout

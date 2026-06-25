@@ -44,3 +44,21 @@ Side-scrolling samurai action with:
 - Arthur mentor/boss arc
 
 See `docs/GODOT_PORT_PLAN.md` for implementation steps.
+
+
+## Metroidvania pillar
+
+WAGO should not remain a simple arena fighter. The old Misty 1v1 prototype is the combat seed. The full game should become a side-scrolling metroidvania with:
+
+- interconnected Froy map
+- Elk as origin/home hub
+- Pahica tournament arc as public combat progression
+- Lyon library/archive as lore and proof progression
+- Gabal-controlled gates and checkpoints
+- ability-gated traversal upgrades
+- Nox-Dong truth/proof mechanic
+- Bhunt as a late-core ability for freeing Umbral Folk
+- Arthur as mentor/mirror/boss arc
+- NPC allies Lucas, John Bala, and Rick driving unlocks and story turns
+
+See `docs/MISTY_ASSET_INVENTORY.md` for the migrated Java assets and `docs/GODOT_PORT_PLAN.md` for the current port strategy.

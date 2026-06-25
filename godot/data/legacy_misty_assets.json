@@ -1,0 +1,135 @@
+{
+  "source": "Misty Java prototype",
+  "assets": [
+    {
+      "file": "godot/assets/legacy_misty/res/background.gif",
+      "width": 1575,
+      "height": 1040,
+      "frames": 120,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/background2.gif",
+      "width": 1580,
+      "height": 725,
+      "frames": 240,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/background3.gif",
+      "width": 1526,
+      "height": 858,
+      "frames": 120,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/button_atlas.png",
+      "width": 420,
+      "height": 168,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/health_power_bar.png",
+      "width": 192,
+      "height": 58,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/Japanese_Vilage_UPDATED.png",
+      "width": 384,
+      "height": 224,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/level_one_data.png",
+      "width": 12,
+      "height": 7,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/menu_background.png",
+      "width": 282,
+      "height": 336,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/menu_background_red.png",
+      "width": 282,
+      "height": 336,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/pause_menu.png",
+      "width": 258,
+      "height": 389,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/ronin_atlas.png",
+      "width": 1344,
+      "height": 648,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/samurai_atlas.png",
+      "width": 1344,
+      "height": 648,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/sound_button.png",
+      "width": 126,
+      "height": 84,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/urm_buttons.png",
+      "width": 168,
+      "height": 168,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/volume_buttons.png",
+      "width": 299,
+      "height": 44,
+      "frames": 1,
+      "kind": "image"
+    },
+    {
+      "file": "godot/assets/legacy_misty/res/world01.txt",
+      "bytes": 248,
+      "kind": "data"
+    },
+    {
+      "file": "godot/assets/legacy_misty/audio/ingame.mp3",
+      "bytes": 865245,
+      "kind": "audio"
+    },
+    {
+      "file": "godot/assets/legacy_misty/audio/ingame.wav",
+      "bytes": 6359162,
+      "kind": "audio"
+    },
+    {
+      "file": "godot/assets/legacy_misty/audio/menu.mp3",
+      "bytes": 1660203,
+      "kind": "audio"
+    },
+    {
+      "file": "godot/assets/legacy_misty/audio/menu.wav",
+      "bytes": 12202106,
+      "kind": "audio"
+    }
+  ]
+}
