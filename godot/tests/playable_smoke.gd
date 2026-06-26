@@ -27,7 +27,11 @@ func _run() -> void:
     _require(enemy != null, "missing RoninEnemy")
     _require(hud != null, "missing HUD")
     _require(gm != null, "missing GameManager autoload")
-    _require(gm.mode == 1, "arena did not start")
+    _require(gm.mode == 0, "game should start on the original-style title menu")
+    scene.start_from_title()
+    await process_frame
+    await physics_frame
+    _require(gm.mode == 1, "arena did not start from title menu")
     _require(player.health == 100, "player did not reset to 100")
     _require(enemy.health == 100, "enemy did not reset to 100")
 

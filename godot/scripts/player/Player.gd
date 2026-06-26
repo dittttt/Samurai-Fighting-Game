@@ -61,8 +61,9 @@ func _physics_process(delta: float) -> void:
         move_and_slide()
         return
     apply_gravity(delta)
-    if not attacking and not rolling:
+    if not rolling:
         _read_movement()
+    if not attacking and not rolling:
         _read_combat()
     move_and_slide()
 
@@ -90,7 +91,7 @@ func _read_movement() -> void:
     velocity.x = direction * speed
     if is_on_floor() and Input.is_action_just_pressed("jump"):
         velocity.y = jump_velocity
-    if Input.is_action_just_pressed("roll"):
+    if not attacking and Input.is_action_just_pressed("roll"):
         _roll()
 
 func _read_combat() -> void:
@@ -104,7 +105,6 @@ func _attack(data: Resource) -> void:
         return
     attacking = true
     set_visual_action(8 if data == heavy_attack else 7, false, true)
-    velocity.x = 0
     hitbox.configure(self, data, facing)
     await get_tree().create_timer(data.startup_seconds).timeout
     if dead or not GameManager.is_playing():

@@ -4,10 +4,11 @@ signal mode_changed(mode: int)
 signal game_over(victory: bool)
 signal player_health_changed(current: int, maximum: int)
 signal enemy_health_changed(current: int, maximum: int)
+signal audio_changed
 
 enum GameMode { TITLE, ARENA, PAUSED, GAME_OVER }
 
-const BASE_RESOLUTION := Vector2i(480, 270)
+const BASE_RESOLUTION := Vector2i(1920, 1120)
 
 var mode: GameMode = GameMode.TITLE
 var current_chapter := "prototype_arena"
@@ -16,6 +17,9 @@ var player_health := 100
 var enemy_max_health := 100
 var enemy_health := 100
 var last_victory := false
+var music_muted := false
+var sfx_muted := false
+var master_volume := 1.0
 
 func _ready() -> void:
     _ensure_input_actions()
@@ -30,20 +34,41 @@ func _ensure_input_actions() -> void:
     _ensure_key_action("heavy_attack", [KEY_K])
     _ensure_key_action("restart", [KEY_R])
     _ensure_key_action("pause", [KEY_P, KEY_ESCAPE])
+    _ensure_mouse_action("light_attack", [MOUSE_BUTTON_LEFT])
+    _ensure_mouse_action("heavy_attack", [MOUSE_BUTTON_RIGHT])
 
 func _ensure_key_action(action_name: StringName, keys: Array[int]) -> void:
     if not InputMap.has_action(action_name):
         InputMap.add_action(action_name)
     for key in keys:
-        var exists: bool = false
+        var exists := false
         for event in InputMap.action_get_events(action_name):
             if event is InputEventKey and event.keycode == key:
                 exists = true
                 break
         if not exists:
-            var event: InputEventKey = InputEventKey.new()
+            var event := InputEventKey.new()
             event.keycode = key
             InputMap.action_add_event(action_name, event)
+
+func _ensure_mouse_action(action_name: StringName, buttons: Array[int]) -> void:
+    if not InputMap.has_action(action_name):
+        InputMap.add_action(action_name)
+    for button in buttons:
+        var exists := false
+        for event in InputMap.action_get_events(action_name):
+            if event is InputEventMouseButton and event.button_index == button:
+                exists = true
+                break
+        if not exists:
+            var event := InputEventMouseButton.new()
+            event.button_index = button
+            InputMap.action_add_event(action_name, event)
+
+func show_title() -> void:
+    mode = GameMode.TITLE
+    last_victory = false
+    mode_changed.emit(mode)
 
 func reset_arena() -> void:
     mode = GameMode.ARENA
@@ -82,6 +107,18 @@ func finish_fight(victory: bool) -> void:
 
 func is_playing() -> bool:
     return mode == GameMode.ARENA
+
+func toggle_music_mute() -> void:
+    music_muted = not music_muted
+    audio_changed.emit()
+
+func toggle_sfx_mute() -> void:
+    sfx_muted = not sfx_muted
+    audio_changed.emit()
+
+func set_master_volume(value: float) -> void:
+    master_volume = clampf(value, 0.0, 1.0)
+    audio_changed.emit()
 
 func change_scene(path: String) -> void:
     get_tree().change_scene_to_file(path)

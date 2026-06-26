@@ -24,9 +24,39 @@ func _run() -> void:
     var player: CharacterBody2D = scene.get_node_or_null("Player") as CharacterBody2D
     var enemy: CharacterBody2D = scene.get_node_or_null("RoninEnemy") as CharacterBody2D
     var level: Node = scene.get_node_or_null("LegacyMistyLevel")
+    var hud: Node = scene.get_node_or_null("HUD")
+    var gm: Node = root.get_node_or_null("GameManager")
     _require(player != null, "missing Player")
     _require(enemy != null, "missing RoninEnemy")
     _require(level != null, "missing LegacyMistyLevel")
+    _require(hud != null, "missing HUD")
+    _require(gm != null, "missing GameManager")
+
+    _require(gm.mode == gm.GameMode.TITLE, "Godot should start on the original Misty main menu")
+    _require(hud.title_layer != null and hud.title_layer.visible, "original-style title menu is not visible at startup")
+    _require(hud.title_layer.get_node_or_null("PlayButton") != null, "play button from original button atlas is missing")
+    _require(hud.title_layer.get_node_or_null("OptionsButton") != null, "options button from original button atlas is missing")
+    _require(hud.title_layer.get_node_or_null("QuitButton") != null, "quit button from original button atlas is missing")
+    _require(hud.pause_layer != null and hud.pause_layer.get_node_or_null("PauseMenuPanel") != null, "pause menu atlas panel is missing")
+    _require(hud.music_button != null and hud.sfx_button != null, "music/sfx buttons are missing")
+    _require(hud.volume_slider != null and hud.volume_knob != null, "volume slider is missing")
+    _require(_has_mouse_button("light_attack", MOUSE_BUTTON_LEFT), "left mouse light attack input is missing")
+    _require(_has_mouse_button("heavy_attack", MOUSE_BUTTON_RIGHT), "right mouse heavy attack input is missing")
+
+    scene.start_from_title()
+    await process_frame
+    _require(gm.mode == gm.GameMode.ARENA, "play button/start flow did not enter arena")
+    gm.set_paused(true)
+    await process_frame
+    _require(hud.pause_layer.visible, "ESC/pause overlay did not become visible")
+    gm.toggle_music_mute()
+    _require(gm.music_muted, "music mute toggle did not set muted state")
+    gm.toggle_music_mute()
+    gm.set_master_volume(0.25)
+    _require(is_equal_approx(gm.master_volume, 0.25), "volume slider state did not update master volume")
+    scene.return_to_title()
+    await process_frame
+    _require(gm.mode == gm.GameMode.TITLE and hud.title_layer.visible, "menu return did not restore title screen")
 
     scene.reset_fight()
     _require(player.global_position == Vector2(100, 200), "player reset does not match Java hitbox start")
@@ -55,6 +85,14 @@ func _run() -> void:
     _require(is_equal_approx(enemy.attack_range, 60.0), "enemy attack entry range does not match Java ATTACK_RANGE*1.2")
     _require(is_equal_approx(enemy.attack_cooldown, 1.50), "enemy attack cooldown does not match Java 1500ms baseline")
 
+    player.attacking = true
+    Input.action_press("move_right")
+    player._physics_process(0.016)
+    Input.action_release("move_right")
+    _require(player.velocity.x > 0.0, "player should still move while attacking like the Java original")
+    player.attacking = false
+    player.velocity = Vector2.ZERO
+
     player.take_damage(10, enemy, Vector2.ZERO)
     await process_frame
     await physics_frame
@@ -81,5 +119,11 @@ func _run() -> void:
     _require(player.collision_mask == 3, "player actor/world mask was not restored after roll")
 
     scene.queue_free()
-    print("port_baseline_smoke=PASS viewport=1920x1120 spriteScale=5 hitAnimation=row5 javaAnimTiming=PASS javaAttackTiming=PASS actorCollision=walk_blocks roll_passes")
+    print("port_baseline_smoke=PASS viewport=1920x1120 legacyMenu=PASS pauseMusicUi=PASS mouseAttacks=PASS movingAttack=PASS spriteScale=5 hitAnimation=row5 javaAnimTiming=PASS javaAttackTiming=PASS actorCollision=walk_blocks roll_passes")
     quit(0)
+
+func _has_mouse_button(action_name: StringName, button_index: int) -> bool:
+    for event in InputMap.action_get_events(action_name):
+        if event is InputEventMouseButton and event.button_index == button_index:
+            return true
+    return false
